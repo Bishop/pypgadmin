@@ -1,5 +1,28 @@
 import psycopg2
 import re
+import ConfigParser
+
+class Connections(object):
+	file = 'connections.cfg'
+	def __init__(self):
+		config = ConfigParser.RawConfigParser()
+		config.read(self.file)
+		self.connections = dict([(section, dict(config.items(section))) for section in config.sections()])
+	def set_connection(self, name, user, password, host='localhost', port=5432, dbname=''):
+		self.connections[name] = {'user': user, 'password': password, 'host': host, 'port': port, 'dbname': dbname}
+	def list_connection(self):
+		return self.connections.keys()
+	def get_connection_params(self, connection):
+		return self.connections[connection]
+	def write(self):
+		config = ConfigParser.RawConfigParser()
+		for section in self.connections:
+			config.add_section(section)
+			for option in self.connections[section]:
+				config.set(section, option, self.connections[section][option])
+		with open(self.file, 'wb') as config_file:
+			config.write(config_file)
+
 
 class dbDBInfo(object):
 	def __init__(self, info):
@@ -13,7 +36,7 @@ class dbVersion(object):
 
 class DataBaseManager(object):
 
-	def __init__(self, user, password, host='localhost', port=5432):
+	def __init__(self, user, password, host='localhost', port=5432, dbname=''):
 		self.connect = psycopg2.connect(user=user, password=password, host=host, port=port)
 		self.version = self.get_version()
 
@@ -38,6 +61,8 @@ class DataBaseManager(object):
 		return dbVersion(version)
 
 if __name__ == '__main__':
-	dbm = DataBaseManager('postgres', '1')
+	connections = Connections()
+	options = connections.get_connection_params(connections.list_connection()[0])
+	dbm = DataBaseManager(**options)
 	print "{0} {1}".format(dbm.version.version['name'], dbm.version.version['version'])
 	print dbm.get_databases()
