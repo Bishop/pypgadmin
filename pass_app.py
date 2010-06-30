@@ -1,5 +1,6 @@
 import re
 import template as tpl
+import base
 
 urls = [
 	(r'^$', 'index'),
@@ -24,7 +25,18 @@ def index(environ, start_response):
 	start_response('200 OK', [('Content-Type', 'text/html')])
 
 	template = tpl.Template('templates/index.html')
-	context = {'message': 'Hello, world'}
+
+	connections_template = tpl.Template('templates/b.connection.html')
+	connections = base.Connections()
+	for name in connections.list_connection():
+		options = connections.get_connection_params(name)
+		options['name'] = name
+		connections_template.block(options)
+
+	context = {
+		'message': 'Hello, world',
+		'connections': connections_template.render()
+	}
 	return [template.render(context)]
 
 def record(environ, start_response):
