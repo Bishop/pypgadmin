@@ -2,6 +2,9 @@ import re
 import template as tpl
 import base
 
+SOFTWARE_NAME = 'pythonPgAdmin'
+SOFTWARE_VERSION = '0.0.1'
+
 urls = [
 	(r'^$', 'index'),
 	(r'^record(?:/(\d+))?$', 'record'),
@@ -34,6 +37,8 @@ def index(environ, start_response):
 		connections_template.block(options)
 
 	context = {
+		'software_name': SOFTWARE_NAME,
+		'software_version': SOFTWARE_VERSION,
 		'message': 'Hello, world',
 		'connections': connections_template.render()
 	}
