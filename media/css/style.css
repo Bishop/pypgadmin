@@ -22,11 +22,15 @@
 	list-style: none;
 }
 
+b-list__horizontal {
+	display: inline;
+}
+
 /* layout */
 #connections {
 	width: 20%;
 	float: left;
 }
-#content {
+#content, #server_menu {
 	margin-left: 20%;
 }
