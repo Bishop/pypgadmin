@@ -1,21 +1,21 @@
-* {
-	margin: 0;
-	padding: 0;
-	font: normal 100% sans-serif;
-}
-
+@import "reset.css";
+@import "global.css";
 
 #top {
 	background-color: #6e6e6e;
 	color: #dfdfdf;
 	border-bottom: #dfdfdf solid 1px;
-	font-size: 2em;
-	padding: 0.4em 1em 0.3em 0.4em;
+	font-size: 1.6em;
+	padding: 0.4em 1em 0.3em 0.625em;
 	margin-bottom: 0.5em;
 }
 
 #page {
 	margin: 0 1em;
+}
+
+.b-text {
+	font-size: 1.4em;
 }
 
 .b-list__nobullet {
