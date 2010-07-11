@@ -10,7 +10,8 @@ urls = [
 	(r'^Debug?$', 'show_environment'),
 	(r'^SQLConsole?$', 'show_sqlconsole'),
 
-	(r'^server/(?P<profile>\w+)', 'show_server')
+	(r'^server/(?P<profile>\w+)', 'show_server'),
+	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)', 'show_database')
 ]
 
 def show_environment(environ, start_response):
@@ -46,13 +47,29 @@ def index(environ, start_response):
 	}
 	return [template.render(context)]
 
+def connection_params(profile):
+	return base.Connections().get_connection_params(profile)
+
+def render_schema(dbm):
+	stpl = tpl.Template('templates/b.schema.html')
+	for schema in dbm.get_schemas():
+		stpl.block({'schema_name': schema})
+	return stpl.render()
+
+def show_database(environ, start_response, dbname, profile):
+	c = connection_params(profile)
+	c['dbname'] = dbname
+	dbm = base.DataBaseManager(**c)
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+	return render_schema(dbm)
+
 def show_server(environ, start_response, profile):
-	connections = base.Connections()
-	c = connections.get_connection_params(profile)
+	c = connection_params(profile)
 	dbm = base.DataBaseManager(**c)
 	db_template = tpl.Template('templates/b.database.html')
 	for db_name in dbm.get_databases():
-		db_template.block({'db_name': db_name})
+		context = {'db_name': db_name, 'schemas': render_schema(dbm) if db_name == c['dbname'] else ''}
+		db_template.block(context)
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 	return db_template.render()
 
