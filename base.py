@@ -60,9 +60,18 @@ class DataBaseManager(object):
 		c.close()
 		return dbVersion(version)
 
+	def get_schemas(self, show_system=False):
+		s = "SELECT * FROM information_schema.schemata ORDER BY schema_name"
+		c = self.connect.cursor()
+		c.execute(s)
+		schemas = [s for s in c.fetchall() if show_system or not s[1].startswith('pg_')]
+		c.close()
+		return schemas
+
 if __name__ == '__main__':
 	connections = Connections()
 	options = connections.get_connection_params(connections.list_connection()[0])
 	dbm = DataBaseManager(**options)
 	print "{0} {1}".format(dbm.version.version['name'], dbm.version.version['version'])
 	print dbm.get_databases()
+	print dbm.get_schemas()
