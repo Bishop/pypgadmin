@@ -34,6 +34,14 @@ class dbVersion(object):
 		m = re.match(r'^(?P<name>\w+) (?P<version>(?P<major>\d+)(?:\.(?P<minor>\d+))?(?:\.(?P<build>\d+))?), (?P<notes>.*?)(?:, (?P<arch>\d+)-bit)?$', "PostgreSQL 8.4.2, compiled by Visual C++ build 1400, 32-bit")
 		self.version = m.groupdict()
 
+class dbSchemaInfo(object):
+	def __init__(self, info):
+		(self.catalog, self.schema, self.owner, ) = info[:3]
+
+class dbTablespaceInfo(object):
+	def __init__(self, info):
+		self.spcname = info[0]
+
 class DataBaseManager(object):
 
 	def __init__(self, user, password, host='localhost', port=5432, dbname=''):
@@ -64,9 +72,17 @@ class DataBaseManager(object):
 		s = "SELECT * FROM information_schema.schemata ORDER BY schema_name"
 		c = self.connect.cursor()
 		c.execute(s)
-		schemas = [s for s in c.fetchall() if show_system or not s[1].startswith('pg_')]
+		schemas = [dbSchemaInfo(s) for s in c.fetchall() if show_system or not s[1].startswith('pg_')]
 		c.close()
-		return schemas
+		return [s.schema for s in schemas]
+
+	def get_tablespaces(self):
+		s = "SELECT * FROM pg_tablespace ORDER BY spcname"
+		c = self.connect.cursor()
+		c.execute(s)
+		tablespaces = [dbTablespaceInfo(t) for t in c.fetchall()]
+		c.close()
+		return [t.spcname for t in tablespaces]
 
 if __name__ == '__main__':
 	connections = Connections()
@@ -75,3 +91,4 @@ if __name__ == '__main__':
 	print "{0} {1}".format(dbm.version.version['name'], dbm.version.version['version'])
 	print dbm.get_databases()
 	print dbm.get_schemas()
+	print dbm.get_tablespaces()
