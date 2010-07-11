@@ -22,7 +22,13 @@ var dbc;
 		event.preventDefault();
 		var self = $(this);
 		var url = self.attr("href").substr(1);
-		self.parent("span").next("div.b-schemas").load(url + '/' + dbc.profile);
+		var p = self.parent("span");
+		var child = p.next("div");
+		if (child.children().size() == 0) {
+			child.load(url + '/' + dbc.profile);
+		} else {
+			child.toggleClass('g-hidden');
+		}
 	});
 
 	$("#db_tree a[rel=schema]").live('click', function(event){
@@ -30,8 +36,13 @@ var dbc;
 		var self = $(this);
 		var url = self.attr("href").substr(1);
 		var p = self.parent("span");
-		url = p.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' + url;
-		p.next("div").load(url + '/' + dbc.profile);
+		var child = p.next("div");
+		if (child.children().size() == 0) {
+			url = p.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' + url;
+			child.load(url + '/' + dbc.profile);
+		} else {
+			child.toggleClass('g-hidden');
+		}
 	});
 
 })(jQuery);
