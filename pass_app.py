@@ -11,7 +11,8 @@ urls = [
 	(r'^SQLConsole?$', 'show_sqlconsole'),
 
 	(r'^server/(?P<profile>\w+)', 'show_server'),
-	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)', 'show_database')
+	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'show_database'),
+	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/(?P<profile>\w+)', 'show_schema'),
 ]
 
 def show_environment(environ, start_response):
@@ -47,8 +48,19 @@ def index(environ, start_response):
 	}
 	return [template.render(context)]
 
-def connection_params(profile):
-	return base.Connections().get_connection_params(profile)
+def connection_params(profile, dbname = None):
+	dbc = base.Connections().get_connection_params(profile)
+	if dbname is not None:
+		dbc['dbname'] = dbname
+	return dbc
+
+def show_schema(environ, start_response, dbname, schema, profile):
+	dbm = base.DataBaseManager(**connection_params(profile, dbname))
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+	ttpl = tpl.Template('templates/b.table.html')
+	for table in dbm.get_tables(schema):
+		ttpl.block({'table_name': table})
+	return ttpl.render()
 
 def render_schema(dbm):
 	stpl = tpl.Template('templates/b.schema.html')
@@ -57,9 +69,7 @@ def render_schema(dbm):
 	return stpl.render()
 
 def show_database(environ, start_response, dbname, profile):
-	c = connection_params(profile)
-	c['dbname'] = dbname
-	dbm = base.DataBaseManager(**c)
+	dbm = base.DataBaseManager(**connection_params(profile, dbname))
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 	return render_schema(dbm)
 

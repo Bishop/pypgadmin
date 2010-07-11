@@ -42,10 +42,14 @@ class dbTablespaceInfo(object):
 	def __init__(self, info):
 		self.spcname = info[0]
 
+class dbTableInfo(object):
+	def __init__(self, info):
+		(self.catalog, self.schema, self.name, ) = info[:3]
+
 class DataBaseManager(object):
 
 	def __init__(self, user, password, host='localhost', port=5432, dbname=''):
-		self.connect = psycopg2.connect(user=user, password=password, host=host, port=port)
+		self.connect = psycopg2.connect(user=user, password=password, host=host, port=port, database=dbname)
 		self.version = self.get_version()
 
 	def __del__(self):
@@ -84,6 +88,14 @@ class DataBaseManager(object):
 		c.close()
 		return [t.spcname for t in tablespaces]
 
+	def get_tables(self, schema):
+		s = "SELECT * FROM information_schema.tables WHERE table_schema = %(schema)s"
+		c = self.connect.cursor()
+		c.execute(s, {'schema': schema})
+		schemas = [dbTableInfo(t).name for t in c.fetchall()]
+		c.close()
+		return schemas
+
 if __name__ == '__main__':
 	connections = Connections()
 	options = connections.get_connection_params(connections.list_connection()[0])
@@ -92,3 +104,4 @@ if __name__ == '__main__':
 	print dbm.get_databases()
 	print dbm.get_schemas()
 	print dbm.get_tablespaces()
+	print dbm.get_tables('software')

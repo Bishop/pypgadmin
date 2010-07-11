@@ -25,4 +25,13 @@ var dbc;
 		self.parent("span").next("div.b-schemas").load(url + '/' + dbc.profile);
 	});
 
+	$("#db_tree a[rel=schema]").live('click', function(event){
+		event.preventDefault();
+		var self = $(this);
+		var url = self.attr("href").substr(1);
+		var p = self.parent("span");
+		url = p.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' + url;
+		p.next("div").load(url + '/' + dbc.profile);
+	});
+
 })(jQuery);
