@@ -8,12 +8,13 @@ SOFTWARE_VERSION = '0.0.1'
 urls = [
 	(r'^$', 'index'),
 	(r'^record(?:/(\d+))?$', 'record'),
-	(r'^env', 'show_environment')
+	(r'^env', 'show_environment'),
+	(r'^Debug/?$', 'show_environment'),
 ]
 
 def show_environment(environ, start_response):
-	response_body = ['%s: %s\n' % (key, value) for key, value in sorted(environ.items())]
-	start_response('200 OK', [('Content-Type', 'text/plain')])
+	response_body = ['%s: %s\n<br>\n' % (key, value) for key, value in sorted(environ.items())]
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
 	return response_body
 
@@ -25,7 +26,7 @@ def not_found(environ, start_response):
 
 def index(environ, start_response):
 	""" Display index page """
-	start_response('200 OK', [('Content-Type', 'text/html')])
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
 	template = tpl.Template('templates/index.html')
 
@@ -56,3 +57,5 @@ def dispatch_request(environ, start_response):
 			return globals()[callback](environ, start_response)
 	else:
 		return not_found(environ, start_response)
+
+

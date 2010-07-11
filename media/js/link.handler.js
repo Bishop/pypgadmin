@@ -11,5 +11,11 @@ var dbc;
 		} else {
 			dbc.action(action);
 		}
-	})
+	});
+
+	$("#server_menu a").live('click', function(event){
+		var url = $(this).attr("href").substr(1);
+		$("#content").load(url);
+	});
+
 })(jQuery);
