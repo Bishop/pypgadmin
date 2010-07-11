@@ -8,8 +8,9 @@ SOFTWARE_VERSION = '0.0.1'
 urls = [
 	(r'^$', 'index'),
 	(r'^Debug?$', 'show_environment'),
+	(r'^SQLConsole?$', 'show_sqlconsole'),
 
-	(r'^db/list/(?P<profile>\w+)', 'show_db_list')
+	(r'^server/(?P<profile>\w+)', 'show_server')
 ]
 
 def show_environment(environ, start_response):
@@ -45,7 +46,7 @@ def index(environ, start_response):
 	}
 	return [template.render(context)]
 
-def show_db_list(environ, start_response, profile):
+def show_server(environ, start_response, profile):
 	connections = base.Connections()
 	c = connections.get_connection_params(profile)
 	dbm = base.DataBaseManager(**c)

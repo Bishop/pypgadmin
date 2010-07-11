@@ -12,12 +12,12 @@ function Connection(profile, action) {
 			}
 		},
 		load: function (profile) {
-			$("#db_tree").load('/db/list/' + profile);
+			$("#db_tree").load('/server/' + profile);
 		},
 		edit: function (profile) {
-
+			alert(profile);
 		}
-	}
+	};
 	c.action(action);
 	return c;
 }
