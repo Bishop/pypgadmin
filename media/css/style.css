@@ -22,7 +22,7 @@
 	list-style: none;
 }
 
-b-list__horizontal {
+.b-list__horizontal li {
 	display: inline;
 }
 
@@ -31,6 +31,18 @@ b-list__horizontal {
 	width: 20%;
 	float: left;
 }
+#db_tree {
+	clear: left;
+	width: 20%;
+	float: left;
+	border-right: #dfdfdf solid 1px;
+}
+
 #content, #server_menu {
 	margin-left: 20%;
+}
+
+.b-db__dbname {
+	background: url(/media/img/database.png) left center no-repeat;
+	padding-left: 18px;
 }

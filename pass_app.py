@@ -7,9 +7,9 @@ SOFTWARE_VERSION = '0.0.1'
 
 urls = [
 	(r'^$', 'index'),
-	(r'^record(?:/(\d+))?$', 'record'),
-	(r'^env', 'show_environment'),
-	(r'^Debug/?$', 'show_environment'),
+	(r'^Debug?$', 'show_environment'),
+
+	(r'^db/list/(?P<profile>\w+)', 'show_db_list')
 ]
 
 def show_environment(environ, start_response):
@@ -45,16 +45,23 @@ def index(environ, start_response):
 	}
 	return [template.render(context)]
 
-def record(environ, start_response):
-	pass
+def show_db_list(environ, start_response, profile):
+	connections = base.Connections()
+	c = connections.get_connection_params(profile)
+	dbm = base.DataBaseManager(**c)
+	db_template = tpl.Template('templates/b.database.html')
+	for db_name in dbm.get_databases():
+		db_template.block({'db_name': db_name})
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+	return db_template.render()
 
 def dispatch_request(environ, start_response):
-	path = environ.get('PATH_INFO', '').lstrip('/')
+	path = environ.get('PATH_INFO', '').strip('/')
 	for regex, callback in urls:
 		match = re.search(regex, path)
 		if match is not None:
 			environ['pass.args'] = match.groups()
-			return globals()[callback](environ, start_response)
+			return globals()[callback](environ, start_response, **match.groupdict())
 	else:
 		return not_found(environ, start_response)
 

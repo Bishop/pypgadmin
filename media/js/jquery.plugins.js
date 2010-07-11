@@ -12,7 +12,7 @@ function Connection(profile, action) {
 			}
 		},
 		load: function (profile) {
-			alert(profile);//$("#db_tree").load('/db/' + profile);
+			$("#db_tree").load('/db/list/' + profile);
 		},
 		edit: function (profile) {
 
