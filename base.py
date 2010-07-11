@@ -89,7 +89,7 @@ class DataBaseManager(object):
 		return [t.spcname for t in tablespaces]
 
 	def get_tables(self, schema):
-		s = "SELECT * FROM information_schema.tables WHERE table_schema = %(schema)s"
+		s = "SELECT * FROM information_schema.tables WHERE table_schema = %(schema)s ORDER BY table_name"
 		c = self.connect.cursor()
 		c.execute(s, {'schema': schema})
 		schemas = [dbTableInfo(t).name for t in c.fetchall()]
