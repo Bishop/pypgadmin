@@ -1,7 +1,3 @@
-function loadConnection(profile) {
-	$("#db_tree").load('/db/' + profile);
-}
-
 var dbc;
 
 (function ($) {

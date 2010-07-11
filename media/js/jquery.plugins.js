@@ -7,7 +7,15 @@ function Connection(profile, action) {
 
 		},
 		action: function(action) {
-			alert(action);
+			if (['load', 'edit'].indexOf(action) != -1) {
+				this[action](this.profile);
+			}
+		},
+		load: function (profile) {
+			alert(profile);//$("#db_tree").load('/db/' + profile);
+		},
+		edit: function (profile) {
+
 		}
 	}
 	c.action(action);
