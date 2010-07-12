@@ -3,7 +3,7 @@ import template as tpl
 import base
 
 SOFTWARE_NAME = 'pythonPgAdmin'
-SOFTWARE_VERSION = '0.0.1'
+SOFTWARE_VERSION = '0.0.2'
 
 urls = [
 	(r'^$', 'index'),
