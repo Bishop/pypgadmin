@@ -4,7 +4,8 @@ class StaticFilesFilter(object):
 	content_types = {
 		'css': 'text/css; charset=utf-8',
 		'js': 'text/javascript; charset=utf-8',
-		'png': 'text/plain',
+		'png': 'image/png',
+		'ico': 'image/x-icon'
 	}
 
 	def __init__(self, application):
