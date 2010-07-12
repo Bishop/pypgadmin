@@ -27,21 +27,23 @@
 }
 
 /* layout */
-#connections {
+#sidebar {
+	border-right: #dfdfdf solid 1px;
 	width: 20%;
 	float: left;
 }
+
+#connections {
+}
+
 #db_tree {
 	margin-top: 1em;
-	clear: left;
-	width: 20%;
-	float: left;
-	border-right: #dfdfdf solid 1px;
+	white-space: nowrap;
 	overflow: hidden;
 }
 
 #content, #server_menu {
-	margin-left: 20%;
+	margin-left: 21%;
 }
 
 .b-db {
