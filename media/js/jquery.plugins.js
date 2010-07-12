@@ -12,7 +12,13 @@ function Connection(profile, action) {
 			}
 		},
 		load: function (profile) {
-			$("#db_tree").load('/server/' + profile);
+			$("#db_tree").load('/server/' + profile, function(){
+				$("#db_tree a[rel=db_name]").each(function(){
+					if ($(this).parent("span").next("div").children().size() != 0) {
+						$(this).toggleClass("b-chevron__expand");
+					}
+				});
+			});
 		},
 		edit: function (profile) {
 			alert(profile);

@@ -38,7 +38,6 @@
 	float: left;
 	border-right: #dfdfdf solid 1px;
 	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #content, #server_menu {
@@ -50,18 +49,32 @@
 }
 
 .b-db__dbname {
-	background: url(/media/img/database.png) left center no-repeat;
-	padding-left: 18px;
+	background: url(/media/img/database.png) 16px center no-repeat;
+}
+.b-db__dbname a,
+.b-schema__name a,
+.b-table__name a {
+	padding-left: 34px;
+	line-height: 1.4em;
+}
+
+.b-schemas,
+.b-tables {
+	margin-left: 16px;
 }
 
 .b-schema__name {
-	background: url(/media/img/database-small.png) left center no-repeat;
-	margin-left: 16px;
-	padding-left: 18px;
+	background: url(/media/img/database-small.png) 16px no-repeat;
 }
 
 .b-table__name {
-	background: url(/media/img/table.png) left center no-repeat;
-	margin-left: 34px;
-	padding-left: 18px;
+	background: url(/media/img/table.png) 16px bottom no-repeat;
+}
+
+.b-chevron {
+	background: url("/media/img/chevron-small.png") left center no-repeat;
+}
+
+.b-chevron__expand {
+	background: url("/media/img/chevron-small-expand.png") left center no-repeat;
 }

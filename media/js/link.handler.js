@@ -45,4 +45,8 @@ var dbc;
 		}
 	});
 
+	$("#db_tree a.b-chevron").live('click', function(event) {
+		$(this).toggleClass("b-chevron__expand");
+	});
+
 })(jQuery);
