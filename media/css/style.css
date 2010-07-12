@@ -37,6 +37,8 @@
 	width: 20%;
 	float: left;
 	border-right: #dfdfdf solid 1px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #content, #server_menu {
