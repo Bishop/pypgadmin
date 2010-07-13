@@ -49,4 +49,13 @@ var dbc;
 		$(this).toggleClass("b-chevron__expand");
 	});
 
+	$("#db_tree a[rel=table]").live('click', function(event){
+		event.preventDefault();
+		var self = $(this);
+		var url = self.attr("href").substr(1);
+		url = self.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' +
+			self.parents("div.b-schema:first").find("a[rel=schema]:first").attr("href").substr(1) + '/' + url;
+		$("#content").load(url + '/' + dbc.profile);
+	})
+
 })(jQuery);

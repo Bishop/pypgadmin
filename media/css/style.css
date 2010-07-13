@@ -80,3 +80,34 @@
 .b-chevron__expand {
 	background: url("/media/img/chevron-small-expand.png") left center no-repeat;
 }
+
+#table_structure {
+	width: 100%;
+}
+
+.b-title__content {
+	font-weight: bold;
+	font-size: 2em;
+	padding: 1em 0 0.6em 0;
+}
+
+.b-small {
+	font-weight: normal;
+	font-size: 1em;
+}
+
+.b-field {
+	font-size: 1.4em;
+}
+
+.b-field td, .b-field th {
+	padding: 0.2em 1em 0.2em 0.4em;
+	text-align: left;
+	border: #dfdfdf 1px solid;
+}
+
+.w__10 { width: 10%; }
+.w__20 { width: 20%; }
+.w__30 { width: 30%; }
+.w__40 { width: 40%; }
+.w__50 { width: 50%; }

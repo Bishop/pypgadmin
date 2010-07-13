@@ -12,7 +12,8 @@ urls = [
 
 	(r'^server/(?P<profile>\w+)', 'show_server'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'show_database'),
-	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/(?P<profile>\w+)', 'show_schema'),
+	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/(?P<profile>\w+)$', 'show_schema'),
+	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)/(?P<profile>\w+)$', 'show_table'),
 ]
 
 def show_environment(environ, start_response):
@@ -53,6 +54,17 @@ def connection_params(profile, dbname = None):
 	if dbname is not None:
 		dbc['dbname'] = dbname
 	return dbc
+
+def show_table(environ, start_response, dbname, schema, table, profile):
+	dbm = base.DataBaseManager(**connection_params(profile, dbname))
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+	tbl = dbm.get_table_structure(schema, table)
+	template = tpl.Template('templates/b.table.field.html')
+	for field in tbl.columns:
+		template.block(field.get_dict())
+	rows = template.render()
+	template = tpl.Template('templates/b.table.structure.html')
+	return template.render({'structure': rows, 'schema': schema, 'table': table})
 
 def show_schema(environ, start_response, dbname, schema, profile):
 	dbm = base.DataBaseManager(**connection_params(profile, dbname))
