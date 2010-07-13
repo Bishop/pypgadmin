@@ -43,8 +43,21 @@ class dbTablespaceInfo(object):
 		self.spcname = info[0]
 
 class dbTableInfo(object):
+	def __init__(self, info=None):
+		if info is not None:
+			(self.catalog, self.schema, self.name, ) = info[:3]
+
+class dbColumnInfo(object):
 	def __init__(self, info):
-		(self.catalog, self.schema, self.name, ) = info[:3]
+		(self.table_name, self.column_name) = info[2:4]
+		(self.column_default, self.is_nullable, self.data_type, self.char_max) = info[5:9]
+		self.udt_name = info[27]
+
+		self.char_max = self.char_max or ''
+	def get_dict(self):
+		return self.__dict__
+	def __repr__(self):
+		return repr(self.__dict__)
 
 class DataBaseManager(object):
 
@@ -96,6 +109,23 @@ class DataBaseManager(object):
 		c.close()
 		return schemas
 
+	def get_table_structure(self, schema, table_name):
+		s = """
+			SELECT
+				*
+			FROM
+				information_schema.columns
+			WHERE
+					table_schema = %(schema)s
+				AND table_name = %(table)s
+		"""
+		table = dbTableInfo(('', schema, table_name))
+		c = self.connect.cursor()
+		c.execute(s, {'schema': schema, 'table': table_name})
+		table.columns = [dbColumnInfo(ci) for ci in c.fetchall()]
+		c.close()
+		return table
+
 if __name__ == '__main__':
 	connections = Connections()
 	options = connections.get_connection_params(connections.list_connection()[0])
@@ -104,4 +134,6 @@ if __name__ == '__main__':
 	print dbm.get_databases()
 	print dbm.get_schemas()
 	print dbm.get_tablespaces()
-	print dbm.get_tables('software')
+	schema = 'software'
+	print dbm.get_tables(schema)
+	print dbm.get_table_structure(schema, 'soft').columns
