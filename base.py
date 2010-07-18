@@ -128,7 +128,7 @@ class DataBaseManager(object):
 			SELECT
 				*
 			FROM
-				%(schema)s.%(table)s
+				"%(schema)s"."%(table)s"
 			LIMIT
 				%(limit)d
 			OFFSET
