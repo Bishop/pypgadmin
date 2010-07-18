@@ -94,12 +94,13 @@
 	text-decoration: none;
 	color: black;
 	font-weight: bold;
-	border: solid 1px black;
+	border: solid 1px #6e6e6e;
 	padding: 0.2em 1em;
 }
 
+#table_view_menu .m-tab__selected,
 #table_view_menu a:hover {
-	background: black;
+	background: #6e6e6e;
 	color: white;
 }
 

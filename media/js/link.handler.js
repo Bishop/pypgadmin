@@ -1,6 +1,10 @@
 var dbc;
 
 (function ($) {
+	function select_table_tab() {
+		$("#table_view_menu a[href=#structure]").toggleClass('m-tab__selected', document.getElementById("table_structure") != undefined);
+		$("#table_view_menu a[href=#data]").toggleClass('m-tab__selected', document.getElementById("table_data") != undefined);
+	}
 	$("#connections a").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);
@@ -55,7 +59,9 @@ var dbc;
 		var url = self.attr("href").substr(1);
 		url = self.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' +
 			self.parents("div.b-schema:first").find("a[rel=schema]:first").attr("href").substr(1) + '/' + url;
-		$("#content").load(url + '/' + dbc.profile);
+		$("#content").load(url + '/' + dbc.profile, function() {
+			select_table_tab();
+		});
 	})
 
 })(jQuery);
