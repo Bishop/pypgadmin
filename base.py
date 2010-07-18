@@ -68,6 +68,13 @@ class DataBaseManager(object):
 	def __del__(self):
 		self.connect.close()
 
+	def query(self, sql, params=None):
+		c = self.connect.cursor()
+		c.execute(sql, params)
+		result = {'header': c.description, 'body': c.fetchall()}
+		c.close()
+		return result
+
 	def get_databases(self):
 		""" Returns names of all databases """
 		s = "SELECT * FROM pg_database WHERE NOT datistemplate"
@@ -95,19 +102,12 @@ class DataBaseManager(object):
 
 	def get_tablespaces(self):
 		s = "SELECT * FROM pg_tablespace ORDER BY spcname"
-		c = self.connect.cursor()
-		c.execute(s)
-		tablespaces = [dbTablespaceInfo(t) for t in c.fetchall()]
-		c.close()
+		tablespaces = [dbTablespaceInfo(t) for t in self.query(s)['body']]
 		return [t.spcname for t in tablespaces]
 
 	def get_tables(self, schema):
 		s = "SELECT * FROM information_schema.tables WHERE table_schema = %(schema)s ORDER BY table_name"
-		c = self.connect.cursor()
-		c.execute(s, {'schema': schema})
-		schemas = [dbTableInfo(t).name for t in c.fetchall()]
-		c.close()
-		return schemas
+		return [dbTableInfo(t).name for t in self.query(s, {'schema': schema})['body']]
 
 	def get_table_structure(self, schema, table_name):
 		s = """
@@ -120,11 +120,36 @@ class DataBaseManager(object):
 				AND table_name = %(table)s
 		"""
 		table = dbTableInfo(('', schema, table_name))
-		c = self.connect.cursor()
-		c.execute(s, {'schema': schema, 'table': table_name})
-		table.columns = [dbColumnInfo(ci) for ci in c.fetchall()]
-		c.close()
+		table.columns = [dbColumnInfo(ci) for ci in self.query(s, {'schema': schema, 'table': table_name})['body']]
 		return table
+
+	def get_table_data(self, schema, table_name, limit=100, offset=0):
+		s = """
+			SELECT
+				*
+			FROM
+				%(schema)s.%(table)s
+			LIMIT
+				%(limit)d
+			OFFSET
+				%(offset)d
+		"""
+		s = s % {'schema': schema, 'table': table_name, 'limit': limit, 'offset': offset}
+		return self.query(s)
+
+	def get_types(self):
+		s = """
+			SELECT
+				pg_type.*
+			FROM
+				pg_type
+		"""
+#				JOIN pg_namespace
+#					ON typnamespace = pg_namespace.oid
+#			WHERE
+#				nspname = %(namespace)s"""
+		return self.query(s)['body'] # {'namespace': 'pg_catalog'}
+		
 
 if __name__ == '__main__':
 	connections = Connections()
@@ -137,3 +162,4 @@ if __name__ == '__main__':
 	schema = 'software'
 	print dbm.get_tables(schema)
 	print dbm.get_table_structure(schema, 'soft').columns
+	print dbm.get_table_data(schema, 'soft')
