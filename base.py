@@ -2,6 +2,8 @@ import psycopg2
 import re
 import ConfigParser
 
+psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+
 class Connections(object):
 	file = 'connections.cfg'
 	def __init__(self):
