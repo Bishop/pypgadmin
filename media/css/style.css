@@ -85,10 +85,33 @@
 	width: 100%;
 }
 
+#table_view_menu {
+	font-size: 1.2em;
+	margin: 0.5em 0em;
+}
+
+#table_view_menu a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+	border: solid 1px black;
+	padding: 0.2em 1em;
+}
+
+#table_view_menu a:hover {
+	background: black;
+	color: white;
+}
+
 .b-title__content {
 	font-weight: bold;
 	font-size: 2em;
-	padding: 1em 0 0.6em 0;
+	margin: 1em 0 0.6em 0;
+}
+
+.b-title__table {
+	background: url(/media/img/table.png) left 80% no-repeat;
+	padding-left: 18px;
 }
 
 .b-small {
