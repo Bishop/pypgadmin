@@ -2,8 +2,12 @@ import re
 import template as tpl
 import base
 
-SOFTWARE_NAME = 'pythonPgAdmin'
+from jinja2 import Environment, PackageLoader
+
+SOFTWARE_NAME = 'pyPgAdmin'
 SOFTWARE_VERSION = '0.0.2'
+
+env = Environment(loader=PackageLoader(SOFTWARE_NAME, 'templates'))
 
 urls = [
 	(r'^$', 'index'),
@@ -59,19 +63,20 @@ def show_table(environ, start_response, dbname, schema, table, show, profile):
 	dbm = base.DataBaseManager(**connection_params(profile, dbname))
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
-	view = ''
 	if show == 'data':
-		pass
+		tbl = dbm.get_table_data(schema, table)
+		types = dbm.get_types()
+
+		template = env.get_template('table.data.html')
+		
+		result = template.render(table=tbl, table_name=table, types=types)
 	else:
 		tbl = dbm.get_table_structure(schema, table)
-		template = tpl.Template('templates/b.table.field.html')
-		for field in tbl.columns:
-			template.block(field.get_dict())
-		rows = template.render()
-		template = tpl.Template('templates/b.table.structure.html')
-		view = template.render({'structure': rows})
-	display = tpl.Template('templates/table.view.html')
-	return display.render({'view': view, 'schema': schema, 'table': table})
+
+		template = env.get_template('table.structure.html')
+		result = template.render(table=tbl, table_name=table)
+
+	return result.encode("utf8")
 
 def show_schema(environ, start_response, dbname, schema, profile):
 	dbm = base.DataBaseManager(**connection_params(profile, dbname))

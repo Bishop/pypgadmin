@@ -1,8 +1,14 @@
+{% block navigation %}
+
 <div id="table_view">
-	<h2 class="b-title__content b-title__table">%(table)s</h2>
+	<h2 class="b-title__content b-title__table">{{ table_name}}</h2>
 	<ul id="table_view_menu" class="b-list__nobullet b-list__horizontal">
 		<li><a href="#structure" rel="current_table">Structure</a></li><!--
 		--><li><a href="#data" rel="current_table">Data</a></li>
 	</ul>
-	%(view)s
+
+	{% block content %}
+	{% endblock %}
 </div>
+
+{% endblock %}

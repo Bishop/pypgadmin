@@ -1,0 +1,25 @@
+{% extends "table.page.html" %}
+
+{% block content %}
+<table class="b-table__allwidth">
+	<tr class="b-field">
+		{% for field in table.header %}
+		<th>
+			{{ field[0] }}
+			<br>
+			{{ types[field[1]] }}
+		</th>
+		{% endfor %}
+	</tr>
+
+	{% for row in table.body %}
+	<tr class="b-field">
+		{% for field in row %}
+		<td>
+			{{ field }}
+		</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

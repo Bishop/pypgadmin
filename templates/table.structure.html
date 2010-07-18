@@ -1,0 +1,45 @@
+{% extends "table.page.html" %}
+
+{% block content %}
+<div class="b-table__allwidth">
+	<table>
+		<colgroup>
+			<col class="w__10" />
+			<col class="w__20" />
+			<col class="w__10" />
+			<col class="w__10" />
+			<col class="w__40" />
+		</colgroup>
+		<thead>
+			<tr class="b-field">
+				<th>Name</th>
+				<th>Type</th>
+				<th>Length</th>
+				<th>Nullable</th>
+				<th>Default</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in table.columns %}
+			<tr class="b-field">
+				<td>
+					{{ row.column_name }}
+				</td>
+				<td>
+					{{ row.data_type }}
+				</td>
+				<td>
+					{{ row.char_max }}
+				</td>
+				<td>
+					{{ row.is_nullable }}
+				</td>
+				<td>
+					{{ row.column_default }}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

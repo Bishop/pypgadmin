@@ -68,7 +68,7 @@ class DataBaseManager(object):
 	def __del__(self):
 		self.connect.close()
 
-	def query(self, sql, params=None):
+	def query(self, sql, params=None, options=None):
 		c = self.connect.cursor()
 		c.execute(sql, params)
 		result = {'header': c.description, 'body': c.fetchall()}
@@ -140,7 +140,7 @@ class DataBaseManager(object):
 	def get_types(self):
 		s = """
 			SELECT
-				pg_type.*
+				oid, typname
 			FROM
 				pg_type
 		"""
@@ -148,8 +148,8 @@ class DataBaseManager(object):
 #					ON typnamespace = pg_namespace.oid
 #			WHERE
 #				nspname = %(namespace)s"""
-		return self.query(s)['body'] # {'namespace': 'pg_catalog'}
-		
+		return dict([(key, value) for key, value in self.query(s)['body']]) # {'namespace': 'pg_catalog'}
+
 
 if __name__ == '__main__':
 	connections = Connections()
@@ -163,3 +163,4 @@ if __name__ == '__main__':
 	print dbm.get_tables(schema)
 	print dbm.get_table_structure(schema, 'soft').columns
 	print dbm.get_table_data(schema, 'soft')
+	print dbm.get_types()

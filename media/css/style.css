@@ -81,10 +81,6 @@
 	background: url("/media/img/chevron-small-expand.png") left center no-repeat;
 }
 
-#table_structure {
-	width: 100%;
-}
-
 #table_view_menu {
 	font-size: 1.2em;
 	margin: 0.5em 0em;
@@ -118,6 +114,10 @@
 .b-small {
 	font-weight: normal;
 	font-size: 1em;
+}
+
+.b-table__allwidth {
+	width: 100%;
 }
 
 .b-field {
