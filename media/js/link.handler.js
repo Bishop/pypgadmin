@@ -26,8 +26,7 @@ var dbc;
 		event.preventDefault();
 		var self = $(this);
 		var url = self.attr("href").substr(1);
-		var p = self.parent("span");
-		var child = p.next("div");
+		var child = self.parent("span").next("div");
 		if (child.children().size() == 0) {
 			child.load(url + '/' + dbc.profile);
 		} else {
@@ -61,7 +60,17 @@ var dbc;
 			self.parents("div.b-schema:first").find("a[rel=schema]:first").attr("href").substr(1) + '/' + url;
 		$("#content").load(url + '/' + dbc.profile, function() {
 			select_table_tab();
+			dbc.currentTable = url;
 		});
 	})
+
+	$("#table_view_menu a[rel=current_table]").live('click', function(event){
+		event.preventDefault();
+		var self = $(this);
+		var url = dbc.currentTable + '/' + self.attr("href").substr(1);
+		$("#content").load(url + '/' + dbc.profile, function() {
+			select_table_tab();
+		});
+	});
 
 })(jQuery);

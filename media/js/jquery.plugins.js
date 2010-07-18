@@ -2,6 +2,7 @@
 function Connection(profile, action) {
 	var c = {
 		profile: profile,
+		currentTable: null,
 		database: null,
 		fetchDatabases: function() {
 
