@@ -65,17 +65,14 @@ def show_table(environ, start_response, dbname, schema, table, show, profile):
 
 	if show == 'data':
 		tbl = dbm.get_table_data(schema, table)
-		types = dbm.get_types()
-
 		template = env.get_template('table.data.html')
-		
-		result = template.render(table=tbl, table_name=table, types=types)
 	else:
 		tbl = dbm.get_table_structure(schema, table)
-
 		template = env.get_template('table.structure.html')
-		result = template.render(table=tbl, table_name=table)
 
+	types = dbm.get_types()
+
+	result = template.render(table=tbl, table_info={'table': table, 'dbname': dbname, 'schema': schema}, types=types)
 	return result.encode("utf8")
 
 def show_schema(environ, start_response, dbname, schema, profile):
@@ -84,18 +81,18 @@ def show_schema(environ, start_response, dbname, schema, profile):
 	ttpl = tpl.Template('templates/b.table.html')
 	for table in dbm.get_tables(schema):
 		ttpl.block({'table_name': table})
-	return ttpl.render()
+	return ttpl.render().encode("utf8")
 
 def render_schema(dbm):
 	stpl = tpl.Template('templates/b.schema.html')
 	for schema in dbm.get_schemas():
 		stpl.block({'schema_name': schema})
-	return stpl.render()
+	return stpl.render().encode("utf8")
 
 def show_database(environ, start_response, dbname, profile):
 	dbm = base.DataBaseManager(**connection_params(profile, dbname))
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
-	return render_schema(dbm)
+	return render_schema(dbm).encode("utf8")
 
 def show_server(environ, start_response, profile):
 	c = connection_params(profile)
@@ -105,7 +102,7 @@ def show_server(environ, start_response, profile):
 		context = {'db_name': db_name, 'schemas': render_schema(dbm) if db_name == c['dbname'] else ''}
 		db_template.block(context)
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
-	return db_template.render()
+	return db_template.render().encode("utf8")
 
 def dispatch_request(environ, start_response):
 	path = environ.get('PATH_INFO', '').strip('/')
