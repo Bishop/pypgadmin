@@ -60,7 +60,8 @@ def connection_params(profile, dbname = None):
 	return dbc
 
 def show_table(environ, start_response, dbname, schema, table, show, profile):
-	dbm = base.DataBaseManager(**connection_params(profile, dbname))
+	connection = connection_params(profile, dbname)
+	dbm = base.DataBaseManager(**connection)
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
 	if show == 'data':
@@ -72,7 +73,7 @@ def show_table(environ, start_response, dbname, schema, table, show, profile):
 
 	types = dbm.get_types()
 
-	result = template.render(table=tbl, table_info={'table': table, 'dbname': dbname, 'schema': schema}, types=types)
+	result = template.render(table=tbl, table_info={'table': table, 'dbname': dbname, 'schema': schema}, types=types, connection=connection)
 	return result.encode("utf8")
 
 def show_schema(environ, start_response, dbname, schema, profile):

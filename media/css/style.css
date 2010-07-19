@@ -106,14 +106,39 @@
 	margin: 1em 0 0.6em 0;
 }
 
-.b-title__table {
-	background: url(/media/img/table.png) left 80% no-repeat;
-	padding-left: 18px;
+/*
+ * Breadcrumbs
+ */
+#table_breadcrumbs {
+	margin: 1em 0;
+	border-bottom: 1px #dfdfdf solid;
 }
 
-.b-small {
-	font-weight: normal;
-	font-size: 1em;
+.m-link__breadcrumbs {
+	text-decoration: none;
+	padding-right: 0.5em;
+	font-size: 1.6em;
+}
+	a:hover.m-link__breadcrumbs {
+		text-decoration: underline;
+	}
+
+.m-link__dbname,
+.m-link__schema,
+.m-link__table {
+	padding-left: 16px;
+}
+
+.m-link__dbname {
+	background: url(/media/img/database.png) left 80% no-repeat;
+}
+
+.m-link__schema {
+	background: url(/media/img/database-small.png) left 80% no-repeat;
+}
+
+.m-link__table {
+	background: url(/media/img/table.png) left 80% no-repeat;
 }
 
 .b-table__allwidth {
