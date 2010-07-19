@@ -3,6 +3,7 @@
 {% block content %}
 <table class="b-table__allwidth" id="table_data">
 	<tr class="b-field">
+		<th></th>
 		{% for field in table.header %}
 		<th>
 			{{ field[0] }}
@@ -14,6 +15,9 @@
 
 	{% for row in table.body %}
 	<tr class="b-field">
+		<td class="m-field__center">
+			<input type="checkbox" />
+		</td>
 		{% for field in row %}
 		<td>
 			{{ field }}

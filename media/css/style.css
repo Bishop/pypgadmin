@@ -149,6 +149,10 @@
 	font-size: 1.4em;
 }
 
+.m-field__center {
+	text-align: center !important;
+}
+
 .b-field td, .b-field th {
 	padding: 0.2em 1em 0.2em 0.4em;
 	text-align: left;
