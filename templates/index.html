@@ -9,7 +9,13 @@
 	<script type="text/javascript" src="/media/js/jquery.plugins.js"></script>
 	<script type="text/javascript" src="/media/js/link.handler.js"></script>
 
-	
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery("#content").ajaxComplete(function(event){
+				jQuery("#table_data").addClass("m-table__hover_highlight").find("tr:odd").addClass("m-row__odd");
+			})
+		})
+	</script>
 </head>
 
 <body>

@@ -141,6 +141,10 @@
 	background: url(/media/img/table.png) left 80% no-repeat;
 }
 
+/*
+ * Tables
+ */
+
 .b-table__allwidth {
 	width: 100%;
 }
@@ -157,6 +161,18 @@
 	padding: 0.2em 1em 0.2em 0.4em;
 	text-align: left;
 	border: #dfdfdf 1px solid;
+}
+
+.b-table_header:hover {
+	background-color: white !important;
+}
+
+.m-row__odd {
+	background-color: #f2f2f2;
+}
+
+.m-table__hover_highlight tr:hover {
+	background-color: #ffe4c4;
 }
 
 .w__10 { width: 10%; }
