@@ -1,3 +1,4 @@
+import os
 
 class Template(object):
 	_content_ = None
@@ -5,7 +6,7 @@ class Template(object):
 	def __init__(self, filename=''):
 		self.items = []
 		if filename != '':
-			self.load(filename)
+			self.load(os.curdir + '/' + filename)
 
 	def load(self, filename):
 		with open(filename, 'r') as f:
