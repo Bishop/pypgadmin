@@ -1,4 +1,4 @@
-var dbc;
+var dbc = new Array();
 
 (function ($) {
 	function select_table_tab() {
@@ -10,10 +10,10 @@ var dbc;
 		var self = $(this);
 		var action = self.attr("rel");
 		var profile = self.attr("href").substr(1);
-		if (dbc == undefined || dbc.profile != profile) {
-			dbc = new Connection(profile, action);
+		if (dbc[profile] == undefined) {
+			dbc[profile] = new Connection(profile, action);
 		} else {
-			dbc.action(action);
+			dbc[profile].action(action);
 		}
 	});
 
@@ -22,19 +22,19 @@ var dbc;
 		$("#content").load(url);
 	});
 
-	$("#db_tree a[rel=db_name]").live('click', function(event){
+	$(".db_tree a[rel=db_name]").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);
 		var url = self.attr("href").substr(1);
 		var child = self.parent("span").next("div");
 		if (child.children().size() == 0) {
-			child.load(url + '/' + dbc.profile);
+			child.load(url);
 		} else {
 			child.toggleClass('g-hidden');
 		}
 	});
 
-	$("#db_tree a[rel=schema]").live('click', function(event){
+	$(".db_tree a[rel=schema]").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);
 		var url = self.attr("href").substr(1);
@@ -42,23 +42,23 @@ var dbc;
 		var child = p.next("div");
 		if (child.children().size() == 0) {
 			url = p.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' + url;
-			child.load(url + '/' + dbc.profile);
+			child.load(url);
 		} else {
 			child.toggleClass('g-hidden');
 		}
 	});
 
-	$("#db_tree a.b-chevron").live('click', function(event) {
+	$(".db_tree a.b-chevron").live('click', function(event) {
 		$(this).toggleClass("b-chevron__expand");
 	});
 
-	$("#db_tree a[rel=table]").live('click', function(event){
+	$(".db_tree a[rel=table]").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);
 		var url = self.attr("href").substr(1);
 		url = self.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' +
 			self.parents("div.b-schema:first").find("a[rel=schema]:first").attr("href").substr(1) + '/' + url;
-		$("#content").load(url + '/' + dbc.profile, function() {
+		$("#content").load(url, function() {
 			select_table_tab();
 			dbc.currentTable = url;
 		});
@@ -68,7 +68,7 @@ var dbc;
 		event.preventDefault();
 		var self = $(this);
 		var url = dbc.currentTable + '/' + self.attr("href").substr(1);
-		$("#content").load(url + '/' + dbc.profile, function() {
+		$("#content").load(url, function() {
 			select_table_tab();
 		});
 	});

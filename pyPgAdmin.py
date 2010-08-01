@@ -1,5 +1,6 @@
 import re
 import template as tpl
+import json
 import base
 
 from jinja2 import Environment, PackageLoader
@@ -11,14 +12,22 @@ env = Environment(loader=PackageLoader(SOFTWARE_NAME, 'templates'))
 
 urls = [
 	(r'^$', 'index'),
-	(r'^Debug?$', 'show_environment'),
-	(r'^SQLConsole?$', 'show_sqlconsole'),
+	(r'^Debug$', 'show_environment'),
+	(r'^SQLConsole$', 'show_sqlconsole'),
 
-	(r'^server/(?P<profile>\w+)', 'show_server'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'show_database'),
-	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/(?P<profile>\w+)$', 'show_schema'),
-	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)/(?:(?P<show>\w+)/)?(?P<profile>\w+)$', 'show_table'),
+	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'show_schema'),
+	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)(?:/(?P<show>\w+))?$', 'show_table'),
+
+	(r'^get_dbs/(?P<profile>\w+)', 'get_databases'),
 ]
+
+def get_databases(environ, start_response, profile):
+	c = connection_params(profile)
+	dbm = base.DataBaseManager(**c)
+	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+	return json.JSONEncoder().encode(dbm.get_databases())
+
 
 def show_environment(environ, start_response):
 	response_body = ['%s: %s\n<br>\n' % (key, value) for key, value in sorted(environ.items())]
@@ -57,7 +66,7 @@ def connection_params(profile, dbname = None):
 		dbc['dbname'] = dbname
 	return dbc
 
-def show_table(environ, start_response, dbname, schema, table, show, profile):
+def show_table(environ, start_response, profile, dbname, schema, table, show):
 	connection = connection_params(profile, dbname)
 	dbm = base.DataBaseManager(**connection)
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
@@ -74,7 +83,7 @@ def show_table(environ, start_response, dbname, schema, table, show, profile):
 	result = template.render(table=tbl, table_info={'table': table, 'dbname': dbname, 'schema': schema}, types=types, connection=connection)
 	return result.encode("utf8")
 
-def show_schema(environ, start_response, dbname, schema, profile):
+def show_schema(environ, start_response, profile, dbname, schema):
 	dbm = base.DataBaseManager(**connection_params(profile, dbname))
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 	ttpl = tpl.Template('templates/b.table.html')
@@ -88,20 +97,10 @@ def render_schema(dbm):
 		stpl.block({'schema_name': schema})
 	return stpl.render().encode("utf8")
 
-def show_database(environ, start_response, dbname, profile):
+def show_database(environ, start_response, profile, dbname):
 	dbm = base.DataBaseManager(**connection_params(profile, dbname))
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 	return render_schema(dbm).encode("utf8")
-
-def show_server(environ, start_response, profile):
-	c = connection_params(profile)
-	dbm = base.DataBaseManager(**c)
-	db_template = tpl.Template('templates/b.database.html')
-	for db_name in dbm.get_databases():
-		context = {'db_name': db_name, 'schemas': render_schema(dbm) if db_name == c['dbname'] else ''}
-		db_template.block(context)
-	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
-	return db_template.render().encode("utf8")
 
 def dispatch_request(environ, start_response):
 	path = environ.get('PATH_INFO', '').strip('/')

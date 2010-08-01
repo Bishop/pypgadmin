@@ -36,7 +36,7 @@
 #connections {
 }
 
-#db_tree {
+.db_tree {
 	margin-top: 1em;
 	white-space: nowrap;
 	overflow: hidden;
@@ -44,6 +44,11 @@
 
 #content, #server_menu {
 	margin-left: 21%;
+}
+
+.b-connection {
+	background: url(/media/img/gear.png) left center no-repeat;
+	padding-left: 18px;
 }
 
 .b-db {
