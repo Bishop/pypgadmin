@@ -36,22 +36,20 @@ def index(environ, start_response):
 	""" Display index page """
 	start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
-	template = tpl.Template('templates/index.html')
+	template = env.get_template('index.html')
 
-	connections_template = tpl.Template('templates/b.connection.html')
 	connections = base.Connections()
+	connection_options = list()
 	for name in connections.list_connection():
 		options = connections.get_connection_params(name)
 		options['name'] = name
-		connections_template.block(options)
+		connection_options.append(options)
 
-	context = {
-		'software_name': SOFTWARE_NAME,
-		'software_version': SOFTWARE_VERSION,
-		'message': 'Hello, world',
-		'connections': connections_template.render()
+	software = {
+		'name': SOFTWARE_NAME,
+		'version': SOFTWARE_VERSION,
 	}
-	return [template.render(context)]
+	return template.render(connections=connection_options, message='Hello, world', software=software).encode('utf8')
 
 def connection_params(profile, dbname = None):
 	dbc = base.Connections().get_connection_params(profile)

@@ -21,7 +21,7 @@
 <body>
 
 <div id="top">
-	<h1>%(software_name)s %(software_version)s</h1>
+	<h1>{{ software.name }} {{ software.version }}</h1>
 </div>
 
 <div id="page">
@@ -30,7 +30,14 @@
 		<div id="connections" class="b-text">
 			<span class="title">Connections:</span>
 			<ul class="b-list__nobullet">
-				%(connections)s
+				{% for conn in connections %}
+				<li>
+					<div>
+						<a href="#{{ conn.name }}" rel="load">{{ conn.name }} <span class="details">({{ conn.host }}:{{ conn.port }})</span></a>
+						<a href="#{{ conn.name }}" rel="edit">[edit]</a>
+					</div>
+				</li>
+				{% endfor %}
 			</ul>
 		</div>
 		<div id="db_tree" class="b-text">
@@ -46,7 +53,7 @@
 		</ul>
 	</div>
 	<div id="content">
-		%(message)s
+		{{ message }}
 	</div>
 </div>
 
