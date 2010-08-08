@@ -1,0 +1,59 @@
+
+{% block content %}
+
+<ul id="table_breadcrumbs" class="b-list__nobullet b-list__horizontal">
+	<li><span class="b-link m-link__breadcrumbs">{{ connection.user }}@{{ connection.host}}</span></li>
+</ul>
+
+<div class="b-table__allwidth" id="list_databases">
+	<table>
+		<colgroup>
+			<col class="w__5" />
+			<col class="w__0" />
+			<col class="w__10" />
+			<col class="w__5" />
+			<col class="w__10" />
+			<col class="w__10" />
+			<col class="w__20" />
+		</colgroup>
+		<thead>
+			<tr class="b-field b-table_header">
+				<th class="m-field__center"><input type="checkbox" /></th>
+				<th>Database</th>
+				<th>Owner</th>
+				<th>Encoding</th>
+				<th>Collate</th>
+				<th>Size</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for db in databases %}
+			<tr class="b-field">
+				<td class="m-field__center">
+					<input type="checkbox" />
+				</td>
+				<td>
+					{{ db.datname }}
+				</td>
+				<td>
+					{{ db.datdbaname }}
+				</td>
+				<td>
+					{{ db.cencoding }}
+				</td>
+				<td>
+					{{ db.datcollate }}
+				</td>
+				<td>
+					{{ db.datsize }}
+				</td>
+				<td>
+					{{ db.description }}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

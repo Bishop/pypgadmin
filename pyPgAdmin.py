@@ -19,6 +19,8 @@ urls = [
 	(r'^db/(?P<profile>\w+)$', 'get_databases'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'get_tables'),
+
+	(r'^page/(?P<profile>\w+)$', 'show_page'),
 ]
 
 class Application(object):
@@ -50,7 +52,8 @@ class Application(object):
 		c = self.connection_params(profile)
 		dbm = base.DataBaseManager(**c)
 		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
-		return json.JSONEncoder().encode(dbm.get_databases())
+
+		return json.JSONEncoder().encode([db.datname for db in dbm.get_databases()])
 
 
 	def show_environment(self):
@@ -111,3 +114,11 @@ class Application(object):
 		dbm = base.DataBaseManager(**self.connection_params(profile, dbname))
 		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
 		return json.JSONEncoder().encode(dbm.get_schemas())
+
+	def show_page(self, profile):
+		self.start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+		connection = self.connection_params(profile)
+		dbm = base.DataBaseManager(**connection)
+		dbs = dbm.get_databases()
+		template = env.get_template('conn.databases.html')
+		return template.render(databases=dbs, connection=connection).encode("utf8")

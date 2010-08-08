@@ -28,7 +28,7 @@ class Connections(object):
 
 class dbDBInfo(object):
 	def __init__(self, info):
-		(self.datname, self.datdba, self.encoding, ) = info[:3]
+		(self.datname, self.datdba, self.datdbaname, self.encoding, self.cencoding, self.datcollate, self.datsize, self.description) = info
 
 class dbVersion(object):
 	def __init__(self, info):
@@ -78,13 +78,31 @@ class DataBaseManager(object):
 		return result
 
 	def get_databases(self):
-		""" Returns names of all databases """
-		s = "SELECT * FROM pg_database WHERE NOT datistemplate"
+		""" Returns info of all databases """
+		s = """
+			SELECT
+				db.datname AS datname,
+				db.datdba AS datdba,
+				role.rolname AS datdbaname,
+				db.encoding AS encoding,
+				pg_encoding_to_char(db.encoding) AS cencoding,
+				db.datcollate AS datcollate,
+				pg_size_pretty(pg_database_size(db.datname)) AS datsize,
+				des.description AS description
+			FROM
+				pg_catalog.pg_database db
+				LEFT JOIN pg_catalog.pg_roles role ON db.datdba = role.oid
+				LEFT JOIN pg_catalog.pg_shdescription des ON db.oid = des.objoid
+			WHERE
+				NOT datistemplate
+			ORDER BY
+				db.datname ASC
+		"""
 		c = self.connect.cursor()
 		c.execute(s)
 		dbs = [dbDBInfo(x) for x in c.fetchall()]
 		c.close()
-		return [dbinfo.datname for dbinfo in dbs]
+		return dbs
 
 	def get_version(self):
 		""" Return version of database """

@@ -46,10 +46,15 @@ function Connection(profile, action) {
 							click(function(event){
 								event.preventDefault();
 								self.load_schemas(jQuery(this));
+								self.load_database_page();
 					});
 					block.appendTo(area);
 				}
 			});
+			jQuery("#content").load('/page/' + profile);
+		},
+		load_database_page: function(page) {
+			
 		},
 		is_empty: function(block) {
 			if (block.children().size() == 0) {
