@@ -32,7 +32,7 @@ function Connection(profile, action) {
 		load: function (profile) {
 			var area = $("#db_tree_" + profile);
 			var self = this;
-			jQuery.getJSON('/get_dbs/' + profile, function(data) {
+			jQuery.getJSON('/db/' + profile, function(data) {
 				area.children().remove();
 				for (var i in data) {
 					var db_name = data[i];
@@ -40,23 +40,15 @@ function Connection(profile, action) {
 					
 					var block = jQuery(self.TPL_DB);
 					block.find("a[rel=db_name]").
-							attr("href", "#db/" + db_name).
+							attr("href", "#db/" + db_name + "/" + profile).
 							attr("title", db_name).
 							text(db_name).
 							click(function(event){
 								event.preventDefault();
-								self.load_schemas(jQuery(this), db_name);
+								self.load_schemas(jQuery(this));
 					});
 					block.appendTo(area);
 				}
-
-//				area.find("a[rel=db_name]").each(function(){
-//					var self = $(this);
-//					self.attr("href", self.attr("href") + "/" + profile);
-//					if (self.parent("span").next("div").children().size() != 0) {
-//						self.toggleClass("b-chevron__expand");
-//					}
-//				});
 			});
 		},
 		is_empty: function(block) {
@@ -67,8 +59,8 @@ function Connection(profile, action) {
 				return false;
 			}
 		},
-		load_schemas: function(link, db_name) {
-			var url = "get_schemas/" + db_name + "/" + this.profile;
+		load_schemas: function(link) {
+			var url = link.attr("href").substr(1);
 			var area = link.parent("span").next("div");
 			if (this.is_empty(area)) {
 				var self = this;
@@ -76,24 +68,23 @@ function Connection(profile, action) {
 					area.children().remove();
 					for (var i in data) {
 						var schema = data[i];
-						self.databases[db_name][schema] = new Array();
 
 						var block = jQuery(self.TPL_SCHEMA);
 						block.find("a[rel=schema]").
-								attr("href", "#schema/" + schema).
+								attr("href", "#" + url + "/schema/" + schema).
 								attr("title", schema).
 								text(schema).
 								click(function(event){
 									event.preventDefault();
-									self.load_tables(jQuery(this), db_name, schema);
+									self.load_tables(jQuery(this));
 						});
 						block.appendTo(area);
 					}
 				});
 			}
 		},
-		load_tables: function(link, db_name, schema) {
-			var url = "get_tables/" + db_name + "/" + this.profile + "/" + link.attr("href").substr(1);
+		load_tables: function(link) {
+			var url = link.attr("href").substr(1);
 			var area = link.parent("span").next("div");
 			if (this.is_empty(area)) {
 				var self = this;
@@ -104,7 +95,7 @@ function Connection(profile, action) {
 
 						var block = jQuery(self.TPL_TABLE);
 						block.find("a[rel=table]").
-								attr("href", "#db/" + db_name + "/" + self.profile + "/schema/" + schema + "/table/" + table).
+								attr("href", "#" + url +  "/table/" + table).
 								attr("title", table).
 								text(table);
 						block.appendTo(area);

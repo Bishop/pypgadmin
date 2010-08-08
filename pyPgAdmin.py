@@ -1,5 +1,4 @@
 import re
-import template as tpl
 import json
 import base
 
@@ -17,9 +16,9 @@ urls = [
 
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)(?:/(?P<show>\w+))?$', 'show_table'),
 
-	(r'^get_dbs/(?P<profile>\w+)', 'get_databases'),
-	(r'^get_schemas/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
-	(r'^get_tables/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'get_tables'),
+	(r'^db/(?P<profile>\w+)$', 'get_databases'),
+	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
+	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'get_tables'),
 ]
 
 class Application(object):
