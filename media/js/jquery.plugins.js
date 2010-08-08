@@ -13,6 +13,11 @@ function Connection(profile, action) {
 						</span>\
 						<div class="b-tables" />\
 					</div>',
+		TPL_TABLE: '<div class="b-table">\
+						<span class="b-table__name">\
+							<a class="b-chevron" rel="table">Table</a>\
+						</span>\
+					</div>',
 		profile: profile,
 		currentTable: null,
 		databases: new Array(),
@@ -63,7 +68,7 @@ function Connection(profile, action) {
 			}
 		},
 		load_schemas: function(link, db_name) {
-			var url = "get_schemas/" + link.attr("href").substr(4) + "/" + this.profile;
+			var url = "get_schemas/" + db_name + "/" + this.profile;
 			var area = link.parent("span").next("div");
 			if (this.is_empty(area)) {
 				var self = this;
@@ -71,17 +76,37 @@ function Connection(profile, action) {
 					area.children().remove();
 					for (var i in data) {
 						var schema = data[i];
-						//self.databases
+						self.databases[db_name][schema] = new Array();
 
 						var block = jQuery(self.TPL_SCHEMA);
 						block.find("a[rel=schema]").
 								attr("href", "#schema/" + schema).
 								attr("title", schema).
-								text(schema);//.
-//								click(function(event){
-//									event.preventDefault();
-//									self.load_schemas(jQuery(this), db_name);
-						//})
+								text(schema).
+								click(function(event){
+									event.preventDefault();
+									self.load_tables(jQuery(this), db_name, schema);
+						});
+						block.appendTo(area);
+					}
+				});
+			}
+		},
+		load_tables: function(link, db_name, schema) {
+			var url = "get_tables/" + db_name + "/" + this.profile + "/" + link.attr("href").substr(1);
+			var area = link.parent("span").next("div");
+			if (this.is_empty(area)) {
+				var self = this;
+				jQuery.getJSON(url, function(data) {
+					area.children().remove();
+					for (var i in data) {
+						var table = data[i];
+
+						var block = jQuery(self.TPL_TABLE);
+						block.find("a[rel=table]").
+								attr("href", "#db/" + db_name + "/" + self.profile + "/schema/" + schema + "/table/" + table).
+								attr("title", table).
+								text(table);
 						block.appendTo(area);
 					}
 				});

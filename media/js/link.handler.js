@@ -22,20 +22,6 @@ var dbc = new Array();
 		$("#content").load(url);
 	});
 
-	$(".db_tree a[rel=schema]").live('click', function(event){
-		event.preventDefault();
-		var self = $(this);
-		var url = self.attr("href").substr(1);
-		var p = self.parent("span");
-		var child = p.next("div");
-		if (child.children().size() == 0) {
-			url = p.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' + url;
-			child.load(url);
-		} else {
-			child.toggleClass('g-hidden');
-		}
-	});
-
 	$(".db_tree a.b-chevron").live('click', function(event) {
 		$(this).toggleClass("b-chevron__expand");
 	});
@@ -44,8 +30,6 @@ var dbc = new Array();
 		event.preventDefault();
 		var self = $(this);
 		var url = self.attr("href").substr(1);
-		url = self.parents("div.b-db:first").find("a[rel=db_name]:first").attr("href").substr(1) + '/' +
-			self.parents("div.b-schema:first").find("a[rel=schema]:first").attr("href").substr(1) + '/' + url;
 		$("#content").load(url, function() {
 			select_table_tab();
 			dbc.currentTable = url;

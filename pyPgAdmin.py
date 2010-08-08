@@ -15,11 +15,11 @@ urls = [
 	(r'^Debug$', 'show_environment'),
 	(r'^SQLConsole$', 'show_sqlconsole'),
 
-	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'show_schema'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)(?:/(?P<show>\w+))?$', 'show_table'),
 
 	(r'^get_dbs/(?P<profile>\w+)', 'get_databases'),
 	(r'^get_schemas/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
+	(r'^get_tables/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'get_tables'),
 ]
 
 class Application(object):
@@ -103,13 +103,10 @@ class Application(object):
 		result = template.render(table=tbl, table_info={'table': table, 'dbname': dbname, 'schema': schema}, types=types, connection=connection)
 		return result.encode("utf8")
 
-	def show_schema(self, profile, dbname, schema):
+	def get_tables(self, profile, dbname, schema):
 		dbm = base.DataBaseManager(**self.connection_params(profile, dbname))
-		self.start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
-		ttpl = tpl.Template('templates/b.table.html')
-		for table in dbm.get_tables(schema):
-			ttpl.block({'table_name': table})
-		return ttpl.render().encode("utf8")
+		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
+		return json.JSONEncoder().encode(dbm.get_tables(schema))
 
 	def get_schemas(self, profile, dbname):
 		dbm = base.DataBaseManager(**self.connection_params(profile, dbname))
