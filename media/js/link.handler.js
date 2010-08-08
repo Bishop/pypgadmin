@@ -22,18 +22,6 @@ var dbc = new Array();
 		$("#content").load(url);
 	});
 
-	$(".db_tree a[rel=db_name]").live('click', function(event){
-		event.preventDefault();
-		var self = $(this);
-		var url = self.attr("href").substr(1);
-		var child = self.parent("span").next("div");
-		if (child.children().size() == 0) {
-			child.load(url);
-		} else {
-			child.toggleClass('g-hidden');
-		}
-	});
-
 	$(".db_tree a[rel=schema]").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);

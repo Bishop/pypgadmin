@@ -15,11 +15,11 @@ urls = [
 	(r'^Debug$', 'show_environment'),
 	(r'^SQLConsole$', 'show_sqlconsole'),
 
-	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'show_database'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'show_schema'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)(?:/(?P<show>\w+))?$', 'show_table'),
 
 	(r'^get_dbs/(?P<profile>\w+)', 'get_databases'),
+	(r'^get_schemas/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
 ]
 
 class Application(object):
@@ -39,7 +39,7 @@ class Application(object):
 			if match is not None:
 				return getattr(self, callback)(**match.groupdict())
 		else:
-			return not_found(environ, start_response)
+			return self.not_found()
 
 	def not_found(self):
 		""" 404 """
@@ -50,7 +50,7 @@ class Application(object):
 	def get_databases(self, profile):
 		c = self.connection_params(profile)
 		dbm = base.DataBaseManager(**c)
-		self.start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
+		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
 		return json.JSONEncoder().encode(dbm.get_databases())
 
 
@@ -111,16 +111,7 @@ class Application(object):
 			ttpl.block({'table_name': table})
 		return ttpl.render().encode("utf8")
 
-	def render_schema(self, dbm):
-		stpl = tpl.Template('templates/b.schema.html')
-		for schema in dbm.get_schemas():
-			stpl.block({'schema_name': schema})
-		return stpl.render().encode("utf8")
-
-	def show_database(self, profile, dbname):
+	def get_schemas(self, profile, dbname):
 		dbm = base.DataBaseManager(**self.connection_params(profile, dbname))
-		self.start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
-		return self.render_schema(dbm).encode("utf8")
-
-
-
+		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
+		return json.JSONEncoder().encode(dbm.get_schemas())
