@@ -21,12 +21,15 @@
 <body>
 
 <div id="top">
-	<h1>{{ software.name }} {{ software.version }}</h1>
+	<div id="software_name">
+		<h1>{{ software.name }} {{ software.version }}</h1>
+	</div>
 </div>
 
 <div id="page">
 
 	<div id="sidebar">
+		<div class="decor-border">
 		<div id="connections" class="b-text">
 			<span class="title">Connections:</span>
 			<ul class="b-list__nobullet">
@@ -43,16 +46,17 @@
 				{% endfor %}
 			</ul>
 		</div>
+		</div>
 	</div>
 
-	<div id="server_menu" class="b-text">
-		<ul class="b-list__nobullet b-list__horizontal">
-			<li><a href="#SQLConsole" rel="">SQL Console</a></li>
-			<li><a href="#Debug" rel="">Debug</a></li>
-			<li><a href="#" rel=""></a></li>
-		</ul>
-	</div>
 	<div id="content">
+		<div id="server_menu" class="b-text">
+			<ul class="b-list__nobullet b-list__horizontal">
+				<li><a href="#SQLConsole" rel="">SQL Console</a></li>
+				<li><a href="#Debug" rel="">Debug</a></li>
+				<li><a href="#" rel=""></a></li>
+			</ul>
+		</div>
 		{{ message }}
 	</div>
 </div>

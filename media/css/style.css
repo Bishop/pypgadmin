@@ -2,16 +2,12 @@
 @import "global.css";
 
 #top {
-	background-color: #6e6e6e;
+	background: url("/media/img/bg-top.png") left top repeat-x;
+	height: 71px;
 	color: #dfdfdf;
-	border-bottom: #dfdfdf solid 1px;
-	font-size: 1.6em;
-	padding: 0.4em 1em 0.3em 0.625em;
-	margin-bottom: 0.5em;
 }
 
 #page {
-	margin: 0 1em;
 }
 
 .b-text {
@@ -27,11 +23,25 @@
 }
 
 /* layout */
+#sofware_name,
 #sidebar {
-	border-right: #dfdfdf solid 1px;
 	width: 20%;
 	float: left;
 }
+
+#software_name h1 {
+	font-size: 2em;
+	font-weight: normal;
+	padding: 1em;
+}
+
+#sidebar {
+	border-right: #ececec solid 1px;
+	background-color: #dddddd;
+}
+	#sidebar .decor-border {
+		border-right: #cfcfcf solid 1px;
+	}
 
 #connections {
 }
@@ -42,8 +52,12 @@
 	overflow: hidden;
 }
 
-#content, #server_menu {
-	margin-left: 21%;
+#content {
+	margin-left: 20%;
+}
+
+#content {
+	background-color: #e2e2e2;
 }
 
 .b-connection {
