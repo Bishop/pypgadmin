@@ -41,6 +41,7 @@
 }
 	#sidebar .decor-border {
 		border-right: #cfcfcf solid 1px;
+		padding: 0 1em;
 	}
 
 #connections {
@@ -51,12 +52,14 @@
 	white-space: nowrap;
 	overflow: hidden;
 }
+	.db_tree a, a.b-connection {
+		color: black;
+		text-decoration: none;
+		border-bottom: black dotted 1px;
+	}
 
 #content {
 	margin-left: 20%;
-}
-
-#content {
 	background-color: #e2e2e2;
 }
 
@@ -129,7 +132,6 @@
  * Breadcrumbs
  */
 #table_breadcrumbs {
-	margin: 1em 0;
 	border-bottom: 1px #dfdfdf solid;
 }
 
@@ -165,7 +167,7 @@
  */
 
 .b-table__allwidth {
-	width: 100%;
+	width: 98%;
 }
 
 .b-field {
