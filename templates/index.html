@@ -24,6 +24,25 @@
 	<div id="software_name">
 		<h1>{{ software.name }} {{ software.version }}</h1>
 	</div>
+	<div id="nav_tabs">
+		<ul class="b-list__nobullet b-list__horizontal">
+			<li>
+				<div><a href="">connect</a></div>
+			</li>
+			<li>
+				<div><a href="">db</a></div>
+			</li>
+			<li>
+				<div><a href="">schema</a></div>
+			</li>
+			<li>
+				<div><a href="">table</a></div>
+			</li>
+			<li>
+				<div><a href=""></a></div>
+			</li>
+		</ul>
+	</div>
 </div>
 
 <div id="page">
@@ -31,7 +50,6 @@
 	<div id="sidebar">
 		<div class="decor-border">
 		<div id="connections" class="b-text">
-			<span class="title">Connections:</span>
 			<ul class="b-list__nobullet">
 				{% for conn in connections %}
 				<li>

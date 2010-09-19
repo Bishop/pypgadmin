@@ -18,7 +18,7 @@
 	list-style: none;
 }
 
-.b-list__horizontal li {
+.b-list__horizontal li, .b-list__horizontal li div {
 	display: inline;
 }
 
@@ -41,7 +41,7 @@
 }
 	#sidebar .decor-border {
 		border-right: #cfcfcf solid 1px;
-		padding: 0 1em;
+		padding: 1em;
 	}
 
 #connections {
