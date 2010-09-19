@@ -49,21 +49,23 @@
 
 	<div id="sidebar">
 		<div class="decor-border">
-		<div id="connections" class="b-text">
-			<ul class="b-list__nobullet">
-				{% for conn in connections %}
-				<li>
-					<div>
-						<a class="b-connection" href="#{{ conn.name }}" rel="load">{{ conn.name }} <span class="details">({{ conn.host }}:{{ conn.port }})</span></a>
-						<a href="#{{ conn.name }}" rel="edit">[edit]</a>
-					</div>
-					<div id="db_tree_{{ conn.name }}" class="db_tree">
 
-					</div>
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
+			<div id="connections" class="b-text">
+				<ul class="b-list__nobullet">
+					{% for conn in connections %}
+					<li>
+						<div>
+							<a class="b-connection" href="#{{ conn.name }}" rel="load">{{ conn.name }} <span class="details">({{ conn.host }}:{{ conn.port }})</span></a>
+							<a href="#{{ conn.name }}" rel="edit">[edit]</a>
+						</div>
+						<div id="db_tree_{{ conn.name }}" class="db_tree">
+
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+
 		</div>
 	</div>
 
