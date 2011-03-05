@@ -33,7 +33,7 @@ class dbDBInfo(object):
 class dbVersion(object):
 	def __init__(self, info):
 		self.version_str = info[0]
-		m = re.match(r'^(?P<name>\w+) (?P<version>(?P<major>\d+)(?:\.(?P<minor>\d+))?(?:\.(?P<build>\d+))?), (?P<notes>.*?)(?:, (?P<arch>\d+)-bit)?$', "PostgreSQL 8.4.2, compiled by Visual C++ build 1400, 32-bit")
+		m = re.match(r'^(?P<name>\w+) (?P<version>(?P<major>\d+)(?:\.(?P<minor>\d+))?(?:\.(?P<build>\d+))?), (?P<notes>.*?)(?:, (?P<arch>\d+)-bit)?$', self.version_str)
 		self.version = m.groupdict()
 
 class dbSchemaInfo(object):
