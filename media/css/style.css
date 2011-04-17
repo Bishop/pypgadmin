@@ -23,7 +23,7 @@
 }
 
 /* layout */
-#sofware_name,
+#software_name,
 #sidebar {
 	width: 20%;
 	float: left;
@@ -96,11 +96,18 @@
 }
 
 .b-chevron {
-	background: url("/media/img/chevron-small.png") left center no-repeat;
+	background: url("/media/img/sprite.png") no-repeat scroll -16px 0;
+	display: inline-block;
+	height: 16px;
+	width: 16px;
 }
 
 .b-chevron__expand {
-	background: url("/media/img/chevron-small-expand.png") left center no-repeat;
+	background: url("/media/img/sprite.png") no-repeat scroll 0 0;
+	display: inline-block;
+	height: 16px;
+	margin-right: 5px;
+	width: 16px;
 }
 
 #table_view_menu {
