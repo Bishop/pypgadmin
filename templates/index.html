@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link type="text/css" rel="stylesheet" href="/media/css/style.css">
 	<script type="text/javascript" src="/media/js/jquery.js"></script>
+	<script type="text/javascript" src="/media/js/jquery.tmpl.js"></script>
 	<script type="text/javascript" src="/media/js/jquery.plugins.js"></script>
 	<script type="text/javascript" src="/media/js/link.handler.js"></script>
 
@@ -25,21 +26,31 @@
 		<h1>{{ software.name }} {{ software.version }}</h1>
 	</div>
 	<div id="nav_tabs">
-		<ul class="b-list__nobullet b-list__horizontal">
-			<li>
-				<div><a href="">connect</a></div>
-			</li>
-			<li>
-				<div><a href="">db</a></div>
-			</li>
-			<li>
-				<div><a href="">schema</a></div>
-			</li>
-			<li>
-				<div><a href="">table</a></div>
-			</li>
-			<li>
-				<div><a href=""></a></div>
+		<ul class="b-list__nobullet">
+			<li class="b-tab m-active-tab">
+				<i class="b-maintab b-tabs-l"><!----></i>
+				<i class="b-maintab b-tabs-r"><!----></i>
+				<div id="nav_connection"><a href="">connect</a></div>
+			</li><!--
+			--><li class="b-tab">
+				<i class="b-maintab b-tabs-l"><!----></i>
+				<i class="b-maintab b-tabs-r"><!----></i>
+				<div id="nav_database"><a href="">db</a></div>
+			</li><!--
+			--><li class="b-tab">
+				<i class="b-maintab b-tabs-l"><!----></i>
+				<i class="b-maintab b-tabs-r"><!----></i>
+				<div id="nav_schema"><a href="">schema</a></div>
+			</li><!--
+			--><li class="b-tab">
+				<i class="b-maintab b-tabs-l"><!----></i>
+				<i class="b-maintab b-tabs-r"><!----></i>
+				<div id="nav_table"><a href="">table</a></div>
+			</li><!--
+			--><li class="b-tab">
+				<i class="b-maintab b-tabs-l"><!----></i>
+				<i class="b-maintab b-tabs-r"><!----></i>
+				<div id="nav_sql_console"><a href="">Console</a></div>
 			</li>
 		</ul>
 	</div>
