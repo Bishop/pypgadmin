@@ -14,8 +14,22 @@
 		jQuery(function($){
 			$("#content").ajaxComplete(function(event){
 				$("#table_data").addClass("m-table__hover_highlight").find("tr:odd").addClass("m-row__odd");
-			})
+			});
+
+			$.ajax('init', {
+				'async': false,
+				'dataType': 'json',
+				'error': function(jqXHR, textStatus, errorThrown) { alert(errorThrown); },
+				'success': function(data, textStatus, jqXHR) {
+					$('#softwareName').tmpl(data).appendTo('#softwareInfo');
+				}
+			});
 		})
+	</script>
+
+	{% raw %}
+	<script id="softwareName" type="text/x-jquery-tmpl">
+		<h1>${name} ${version}</h1>
 	</script>
 
 	<script id="connectionItem" type="text/x-jquery-tmpl">
@@ -29,6 +43,7 @@
 			<div class="connectionContent"></div>
 		</div>
 	</script>
+	{% endraw %}
 
 </head>
 
@@ -36,10 +51,8 @@
 
 <div id="wrapper">
 
-	<div id="top">
-		<div id="software_name">
-			<h1>{{ software.name }} {{ software.version }}</h1>
-		</div>
+	<div id="header">
+		<div id="softwareInfo"></div>
 		<div id="nav_tabs">
 			<ul class="b-list__nobullet">
 				<li class="b-tab m-active-tab">

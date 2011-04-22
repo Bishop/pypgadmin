@@ -1,7 +1,7 @@
 @import "reset.css";
 @import "global.css";
 
-#top {
+#header {
 	background: url("/media/img/bg-top.png") left top repeat-x;
 	height: 71px;
 	color: #dfdfdf;
@@ -23,13 +23,13 @@
 }
 
 /* layout */
-#software_name,
+#softwareInfo,
 #sidebar {
 	width: 20%;
 	float: left;
 }
 
-#software_name h1 {
+#softwareInfo h1 {
 	font-size: 2em;
 	font-weight: normal;
 	padding: 1em;

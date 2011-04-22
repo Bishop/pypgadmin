@@ -11,6 +11,7 @@ env = Environment(loader=PackageLoader(SOFTWARE_NAME, 'templates'))
 
 urls = [
 	(r'^$', 'index'),
+	(r'^init$', 'init'),
 	(r'^Debug$', 'show_environment'),
 	(r'^SQLConsole$', 'show_sqlconsole'),
 
@@ -76,11 +77,22 @@ class Application(object):
 			options['name'] = name
 			connection_options.append(options)
 
-		software = {
+		return template.render(connections=connection_options, message='Hello, world').encode('utf8')
+
+	def init(self):
+		""" Return initialization information about application """
+
+		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
+
+		application = {
 			'name': SOFTWARE_NAME,
 			'version': SOFTWARE_VERSION,
+			'config': {
+				'connections': []
+			}
 		}
-		return template.render(connections=connection_options, message='Hello, world', software=software).encode('utf8')
+
+		return json.JSONEncoder().encode(application)
 
 	def connection_params(self, profile, dbname = None):
 		dbc = base.Connections().get_connection_params(profile)
