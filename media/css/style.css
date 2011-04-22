@@ -1,5 +1,6 @@
 @import "reset.css";
 @import "global.css";
+@import "icons.css";
 
 #header {
 	background: url("/media/img/bg-top.png") left top repeat-x;
