@@ -34,15 +34,17 @@
 	</script>
 
 	<script id="connectionItem" type="text/x-jquery-tmpl">
-		<div class="connectionItem">
+		<li class="connectionItem">
 			<div class="connectionTitle">
-				<a class="connectionLink" href="${$item.proto}://${user}@${host}{{if port != 5432}}:${port}{{/if}}">
+				<a class="connectionLink" href="${$item.proto}://${user}@${host}{{if port != 5432}}:${port}{{/if}}" rel="load">
 					<span class="icon iconConnection"></span>
 					<span class="link">${name}</span>
 				</a>
 			</div>
-			<div class="connectionContent"></div>
-		</div>
+			<div class="connectionContent">
+				<div id="db_tree_${name}" class="db_tree"></div>
+			</div>
+		</li>
 	</script>
 	{% endraw %}
 
@@ -89,25 +91,8 @@
 
 		<div id="sidebar">
 			<div class="decor-border">
-				<div id="connectionList">
-				</div>
-
-				<div id="connections" class="b-text">
-					<ul class="b-list__nobullet">
-						{% for conn in connections %}
-						<li>
-							<div>
-								<a class="b-connection" href="#{{ conn.name }}" rel="load">{{ conn.name }} <span class="details">({{ conn.host }}:{{ conn.port }})</span></a>
-								<a href="#{{ conn.name }}" rel="edit">[edit]</a>
-							</div>
-							<div id="db_tree_{{ conn.name }}" class="db_tree">
-
-							</div>
-						</li>
-						{% endfor %}
-					</ul>
-				</div>
-
+				<ul id="connectionList">
+				</ul>
 			</div>
 		</div>
 

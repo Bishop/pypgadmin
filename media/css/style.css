@@ -60,6 +60,23 @@
 		padding: 1em;
 	}
 
+.connectionItem {
+	list-style: none;
+	margin: 1em 0;
+}
+
+.connectionLink {
+	text-decoration: none;
+	font-size: 1.4em;
+	font-weight: bold;
+	color: #000;
+}
+.connectionLink .link {
+	border-bottom: black dotted 1px;
+}
+
+
+
 #connections {
 }
 

@@ -5,11 +5,12 @@ var dbc = new Array();
 		$("#table_view_menu a[href=#structure]").toggleClass('m-tab__selected', document.getElementById("table_structure") != undefined);
 		$("#table_view_menu a[href=#data]").toggleClass('m-tab__selected', document.getElementById("table_data") != undefined);
 	}
-	$("#connections a").live('click', function(event){
+	$("#connectionList a").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);
 		var action = self.attr("rel");
-		var profile = self.attr("href").substr(1);
+		var profile = self.find('.link').text();
+
 		if (dbc[profile] == undefined) {
 			dbc[profile] = new Connection(profile, action);
 		} else {

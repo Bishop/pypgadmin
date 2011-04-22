@@ -70,14 +70,7 @@ class Application(object):
 
 		template = env.get_template('index.html')
 
-		connections = base.Connections()
-		connection_options = list()
-		for name in connections.list_connection():
-			options = connections.get_connection_params(name)
-			options['name'] = name
-			connection_options.append(options)
-
-		return template.render(connections=connection_options, message='Hello, world').encode('utf8')
+		return template.render(message='Hello, world').encode('utf8')
 
 	def init(self):
 		""" Return initialization information about application """
