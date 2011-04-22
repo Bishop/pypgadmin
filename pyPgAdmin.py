@@ -84,11 +84,18 @@ class Application(object):
 
 		self.start_response('200 OK', [('Content-Type', 'application/json; charset=utf-8')])
 
+		connections = base.Connections()
+		connection_options = list()
+		for name in connections.list_connection():
+			options = connections.get_connection_params(name)
+			options['name'] = name
+			connection_options.append(options)
+
 		application = {
 			'name': SOFTWARE_NAME,
 			'version': SOFTWARE_VERSION,
 			'config': {
-				'connections': []
+				'connections': connection_options
 			}
 		}
 
