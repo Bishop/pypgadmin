@@ -68,9 +68,7 @@ class Application(object):
 		""" Display index page """
 		self.start_response('200 OK', [('Content-Type', 'text/html; charset=utf-8')])
 
-		template = env.get_template('index.html')
-
-		return template.render(message='Hello, world').encode('utf8')
+		return open('templates/index.html', 'r').read()
 
 	def init(self):
 		""" Return initialization information about application """
