@@ -11,19 +11,57 @@
 	<script type="text/javascript" src="/media/js/link.handler.js"></script>
 
 	<script type="text/javascript">
-		jQuery(function($){
-			$("#content").ajaxComplete(function(event){
-				$("#table_data").addClass("m-table__hover_highlight").find("tr:odd").addClass("m-row__odd");
-			});
+		var Application = function($) {
+			this.structure = {};
+
+			this.setConnections = function(connections) {
+				for (var n in connections) {
+					this.structure[connections[n].name] = { info: connections[n] };
+				}
+			};
+
+			this.getConnections = function() {
+				var result = new Array();
+
+				for (var name in this.structure) {
+					if (this.structure.hasOwnProperty(name)) {
+						result.push(this.structure[name].info);
+					}
+				}
+				return result;
+			};
+
+			this.getConnectionByElement = function(element) {
+				return $(element).closest('.connectionItem').children('.connectionLink:first .link').text();
+			};
+
+			this.setSoftwareInfo = function(info) {
+				$('#softwareName').tmpl(info).appendTo('#softwareInfo');
+			};
+
+			this.drawConnections = function() {
+				$('#connectionItem').tmpl(this.getConnections(), {proto: 'postgres'}).appendTo('#connectionList');
+			};
+
+			var that = this;
 
 			$.ajax('init', {
 				'async': false,
 				'dataType': 'json',
 				'error': function(jqXHR, textStatus, errorThrown) { alert(errorThrown); },
 				'success': function(data, textStatus, jqXHR) {
-					$('#softwareName').tmpl(data).appendTo('#softwareInfo');
-					$('#connectionItem').tmpl(data.config.connections, {proto: 'postgres'}).appendTo('#connectionList');
+					that.setSoftwareInfo(data);
+					that.setConnections(data.config.connections);
+					that.drawConnections();
 				}
+			});
+		};
+
+		jQuery(function($){
+			var app = new Application($);
+
+			$("#content").ajaxComplete(function(event){
+				$("#table_data").addClass("m-table__hover_highlight").find("tr:odd").addClass("m-row__odd");
 			});
 		})
 	</script>
@@ -44,6 +82,10 @@
 				<div id="db_tree_${name}" class="db_tree"></div>
 			</div>
 		</li>
+	</script>
+
+	<script id="logItem" type="text/x-jquery-tmpl">
+		
 	</script>
 
 </head>
@@ -104,6 +146,10 @@
 			</div>
 
 		</div>
+	</div>
+
+	<div id="logPanel">
+
 	</div>
 
 </div>
