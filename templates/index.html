@@ -43,6 +43,13 @@
 				$('#connectionItem').tmpl(this.getConnections(), {proto: 'postgres'}).appendTo('#connectionList');
 			};
 
+			this.fetchDatabases = function(el) {
+				$.getJSON('/db/' + this.getConnectionByElement(el), function(data) {
+					var area = $(el).closest('.connectionItem').find('.connectionContent').empty();
+					$('#databaseItem').tmpl(data, {}).appendTo(area);
+				});
+			};
+
 			var that = this;
 
 			$.ajax('init', {
@@ -54,6 +61,11 @@
 					that.setConnections(data.config.connections);
 					that.drawConnections();
 				}
+			});
+
+			$('#connectionList').delegate('.connectionLink', 'click', function(event){
+				event.preventDefault();
+				that.fetchDatabases(this);
 			});
 		};
 
@@ -73,15 +85,28 @@
 	<script id="connectionItem" type="text/x-jquery-tmpl">
 		<li class="connectionItem">
 			<div class="connectionTitle">
-				<a class="connectionLink" href="${$item.proto}://${user}@${host}{{if port != 5432}}:${port}{{/if}}" rel="load">
-					<span class="icon iconConnection"></span>
+				<span class="icon iconChevron"></span><!--
+			 --><a class="connectionLink" href="${$item.proto}://${user}@${host}{{if port != 5432}}:${port}{{/if}}"><!--
+				 --><span class="icon iconConnection"></span>
 					<span class="link">${name}</span>
 				</a>
 			</div>
-			<div class="connectionContent">
-				<div id="db_tree_${name}" class="db_tree"></div>
-			</div>
+			<div class="connectionContent"></div>
 		</li>
+	</script>
+
+	<script id="databaseItem" type="text/x-jquery-tmpl">
+		<div class="databaseItem">
+			<span class="databaseTitle">
+				<span class="icon iconChevron"></span><!--
+			 --><a class="databaseLink" href="javascript:;"><!--
+				 --><span class="icon iconDatabases"></span>
+					<span class="link">${$data}</span>
+				</a>
+			</span>
+
+			<div class="databaseContent"></div>
+		</div>
 	</script>
 
 	<script id="logItem" type="text/x-jquery-tmpl">

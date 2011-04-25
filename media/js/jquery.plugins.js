@@ -1,12 +1,6 @@
 
 function Connection(profile, action) {
 	var c = {
-		TPL_DB: '<div class="b-db">\
-					<span class="b-db__dbname">\
-						<a class="b-chevron" rel="db_name">Database</a>\
-					</span>\
-					<div class="b-schemas" />\
-				</div>',
 		TPL_SCHEMA: '<div class="b-schema">\
 						<span class="b-schema__name">\
 							<a class="b-chevron" rel="schema">Schema</a>\
@@ -25,7 +19,7 @@ function Connection(profile, action) {
 
 		},
 		action: function(action) {
-			if (['load', 'edit'].indexOf(action) != -1) {
+			if (['edit'].indexOf(action) != -1) {
 				this[action](this.profile);
 			}
 		},
