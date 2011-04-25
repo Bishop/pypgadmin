@@ -83,21 +83,25 @@
 		color: #000;
 	}
 
+.schemaLink .link,
 .databaseLink .link,
 .connectionLink .link {
 	border-bottom: black dotted 1px;
 }
 
-.databaseItem {
+.databaseItem,
+.schemaItem {
 	margin-left: 16px;
 }
 
-	.databaseTitle {
+	.databaseTitle,
+	.schemaTitle {
 		line-height: 1.5;
 		font-size: 1.2em;
 	}
 
-	.databaseLink {
+	.databaseLink,
+	.schemaLink {
 		text-decoration: none;
 		color: #000;
 	}

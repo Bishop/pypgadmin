@@ -50,6 +50,13 @@
 				});
 			};
 
+			this.fetchSchemes = function(el) {
+				$.getJSON('/db/' + $(el).attr('href') + '/' + this.getConnectionByElement(el), function(data) {
+					var area = $(el).closest('.databaseItem').find('.databaseContent').empty();
+					$('#schemaItem').tmpl(data, {}).appendTo(area);
+				});
+			};
+
 			var that = this;
 
 			$.ajax('init', {
@@ -66,6 +73,9 @@
 			$('#connectionList').delegate('.connectionLink', 'click', function(event){
 				event.preventDefault();
 				that.fetchDatabases(this);
+			}).delegate('.databaseLink', 'click', function(event){
+				event.preventDefault();
+				that.fetchSchemes(this);
 			});
 		};
 
@@ -99,13 +109,27 @@
 		<div class="databaseItem">
 			<span class="databaseTitle">
 				<span class="icon iconChevron"></span><!--
-			 --><a class="databaseLink" href="javascript:;"><!--
+			 --><a class="databaseLink" href="${$data}"><!--
 				 --><span class="icon iconDatabases"></span>
 					<span class="link">${$data}</span>
 				</a>
 			</span>
 
 			<div class="databaseContent"></div>
+		</div>
+	</script>
+
+	<script id="schemaItem" type="text/x-jquery-tmpl">
+		<div class="schemaItem">
+			<span class="schemaTitle">
+				<span class="icon iconChevron"></span><!--
+			 --><a class="schemaLink" href="javascript:;"><!--
+				 --><span class="icon iconDatabase"></span>
+					<span class="link">${$data}</span>
+				</a>
+			</span>
+
+			<div class="schemaContent"></div>
 		</div>
 	</script>
 

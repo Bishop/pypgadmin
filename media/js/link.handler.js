@@ -18,15 +18,6 @@ var dbc = new Array();
 		}
 	});
 
-	$("#server_menu a").live('click', function(event){
-		var url = $(this).attr("href").substr(1);
-		$("#content").load(url);
-	});
-
-	$(".db_tree a.b-chevron").live('click', function(event) {
-		$(this).toggleClass("b-chevron__expand");
-	});
-
 	$(".db_tree a[rel=table]").live('click', function(event){
 		event.preventDefault();
 		var self = $(this);

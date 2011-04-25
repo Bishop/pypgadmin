@@ -1,12 +1,6 @@
 
 function Connection(profile, action) {
 	var c = {
-		TPL_SCHEMA: '<div class="b-schema">\
-						<span class="b-schema__name">\
-							<a class="b-chevron" rel="schema">Schema</a>\
-						</span>\
-						<div class="b-tables" />\
-					</div>',
 		TPL_TABLE: '<div class="b-table">\
 						<span class="b-table__name">\
 							<a class="b-chevron" rel="table">Table</a>\
@@ -15,14 +9,7 @@ function Connection(profile, action) {
 		profile: profile,
 		currentTable: null,
 		databases: new Array(),
-		fetchDatabases: function() {
 
-		},
-		action: function(action) {
-			if (['edit'].indexOf(action) != -1) {
-				this[action](this.profile);
-			}
-		},
 		load: function (profile) {
 			var area = $("#db_tree_" + profile);
 			var self = this;
