@@ -5,12 +5,16 @@
 	width: 16px;
 	height: 16px;
 	vertical-align: middle;
-	margin-top: -.25em;
 }
 
 .iconConnection { background-position: 0 0; }
 .iconConnections { background-position: -16px 0; }
+
 .iconPlus { background-position: 0 -16px; }
+
 .iconDatabase { background-position: 0 -32px; }
 .iconDatabases { background-position: -16px -32px; }
 .iconTable { background-position: -32px -32px; }
+
+.iconChevron { background-position: -16px -48px; }
+.iconChevronExpanded { background-position: 0 -48px; }

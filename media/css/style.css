@@ -54,41 +54,52 @@
 #sidebar {
 	border-right: #ececec solid 1px;
 	background-color: #dddddd;
+	white-space: nowrap;
+	overflow: hidden;
 }
 	#sidebar .decor-border {
 		border-right: #cfcfcf solid 1px;
 		padding: 1em;
 	}
 
+/* Sidebar items */
+
 .connectionItem {
 	list-style: none;
 	margin: 1em 0;
 }
 
-.connectionLink {
-	text-decoration: none;
-	font-size: 1.4em;
-	font-weight: bold;
-	color: #000;
-}
+	.connectionTitle {
+		font-size: 1.4em;
+	}
+
+	.connectionContent {
+		margin-top: .5em;
+	}
+
+	.connectionLink {
+		text-decoration: none;
+		font-weight: bold;
+		color: #000;
+	}
+
+.databaseLink .link,
 .connectionLink .link {
 	border-bottom: black dotted 1px;
 }
 
-
-
-#connections {
+.databaseItem {
+	margin-left: 16px;
 }
 
-.db_tree {
-	margin-top: 1em;
-	white-space: nowrap;
-	overflow: hidden;
-}
-	.db_tree a, a.b-connection {
-		color: black;
+	.databaseTitle {
+		line-height: 1.5;
+		font-size: 1.2em;
+	}
+
+	.databaseLink {
 		text-decoration: none;
-		border-bottom: black dotted 1px;
+		color: #000;
 	}
 
 #content {
@@ -96,19 +107,6 @@
 	background-color: #e2e2e2;
 }
 
-.b-connection {
-	background: url(/media/img/gear.png) left center no-repeat;
-	padding-left: 18px;
-}
-
-.b-db {
-	margin-bottom: 1em;
-}
-
-.b-db__dbname {
-	background: url(/media/img/database.png) 16px center no-repeat;
-}
-.b-db__dbname a,
 .b-schema__name a,
 .b-table__name a {
 	padding-left: 34px;
@@ -120,32 +118,9 @@
 	margin-left: 16px;
 }
 
-.b-schema__name {
-	background: url(/media/img/database-small.png) 16px no-repeat;
-}
-
-.b-table__name {
-	background: url(/media/img/table.png) 16px bottom no-repeat;
-}
-
-.b-chevron {
-	background: url("/media/img/sprite.png") no-repeat scroll -16px 0;
-	display: inline-block;
-	height: 16px;
-	width: 16px;
-}
-
-.b-chevron__expand {
-	background: url("/media/img/sprite.png") no-repeat scroll 0 0;
-	display: inline-block;
-	height: 16px;
-	margin-right: 5px;
-	width: 16px;
-}
-
 #table_view_menu {
 	font-size: 1.2em;
-	margin: 0.5em 0em;
+	margin: 0.5em 0;
 }
 
 #table_view_menu a {
@@ -188,18 +163,6 @@
 .m-link__schema,
 .m-link__table {
 	padding-left: 16px;
-}
-
-.m-link__dbname {
-	background: url(/media/img/database.png) left 80% no-repeat;
-}
-
-.m-link__schema {
-	background: url(/media/img/database-small.png) left 80% no-repeat;
-}
-
-.m-link__table {
-	background: url(/media/img/table.png) left 80% no-repeat;
 }
 
 /*
