@@ -5,7 +5,7 @@ import base
 from jinja2 import Environment, PackageLoader
 
 SOFTWARE_NAME = 'pyPgAdmin'
-SOFTWARE_VERSION = '0.0.2'
+SOFTWARE_VERSION = '0.0.3'
 
 env = Environment(loader=PackageLoader(SOFTWARE_NAME, 'templates'))
 
