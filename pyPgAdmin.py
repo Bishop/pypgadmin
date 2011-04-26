@@ -19,7 +19,7 @@ urls = [
 
 	(r'^db/(?P<profile>\w+)$', 'get_databases'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
-	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)$', 'get_tables'),
+	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/(?P<profile>\w+)$', 'get_tables'),
 
 	(r'^page/(?P<profile>\w+)$', 'show_page'),
 ]

@@ -7,7 +7,6 @@
 	<link type="text/css" rel="stylesheet" href="/media/css/style.css">
 	<script type="text/javascript" src="/media/js/jquery.js"></script>
 	<script type="text/javascript" src="/media/js/jquery.tmpl.js"></script>
-	<script type="text/javascript" src="/media/js/jquery.plugins.js"></script>
 	<script type="text/javascript" src="/media/js/link.handler.js"></script>
 
 	<script type="text/javascript">
@@ -51,9 +50,18 @@
 			};
 
 			this.fetchSchemes = function(el) {
-				$.getJSON('/db/' + $(el).attr('href') + '/' + this.getConnectionByElement(el), function(data) {
+				var db = $(el).attr('href');
+				$.getJSON('/db/' + db + '/' + this.getConnectionByElement(el), function(data) {
 					var area = $(el).closest('.databaseItem').find('.databaseContent').empty();
-					$('#schemaItem').tmpl(data, {}).appendTo(area);
+					$('#schemaItem').tmpl(data, {db: db}).appendTo(area);
+				});
+			};
+
+			this.fetchTables = function(el) {
+				var schema = $(el).attr('href');
+				$.getJSON('/db/' + schema + '/' + this.getConnectionByElement(el), function(data) {
+					var area = $(el).closest('.schemaItem').find('.schemaContent').empty();
+					$('#tableItem').tmpl(data, {schema: schema}).appendTo(area);
 				});
 			};
 
@@ -76,6 +84,9 @@
 			}).delegate('.databaseLink', 'click', function(event){
 				event.preventDefault();
 				that.fetchSchemes(this);
+			}).delegate('.schemaLink', 'click', function(event){
+				event.preventDefault();
+				that.fetchTables(this);
 			});
 		};
 
@@ -123,13 +134,27 @@
 		<div class="schemaItem">
 			<span class="schemaTitle">
 				<span class="icon iconChevron"></span><!--
-			 --><a class="schemaLink" href="javascript:;"><!--
+			 --><a class="schemaLink" href="${$item.db}/schema/${$data}"><!--
 				 --><span class="icon iconDatabase"></span>
 					<span class="link">${$data}</span>
 				</a>
 			</span>
 
 			<div class="schemaContent"></div>
+		</div>
+	</script>
+
+	<script id="tableItem" type="text/x-jquery-tmpl">
+		<div class="tableItem">
+			<span class="tableTitle">
+				<span class="icon iconChevron"></span><!--
+			 --><a class="tableLink" href="${$item.schema}/table/${$data}"><!--
+				 --><span class="icon iconTable"></span>
+					<span class="link">${$data}</span>
+				</a>
+			</span>
+
+			<div class="tableContent"></div>
 		</div>
 	</script>
 
