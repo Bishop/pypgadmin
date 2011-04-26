@@ -90,8 +90,10 @@
 			});
 		};
 
+		var app;
+
 		jQuery(function($){
-			var app = new Application($);
+			app = new Application($);
 
 			$("#content").ajaxComplete(function(event){
 				$("#table_data").addClass("m-table__hover_highlight").find("tr:odd").addClass("m-row__odd");

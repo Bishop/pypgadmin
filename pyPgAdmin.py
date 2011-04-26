@@ -15,7 +15,7 @@ urls = [
 	(r'^Debug$', 'show_environment'),
 	(r'^SQLConsole$', 'show_sqlconsole'),
 
-	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)(?:/(?P<show>\w+))?$', 'show_table'),
+	(r'^db/(?P<dbname>\w+)/schema/(?P<schema>\w+)/table/(?P<table>[^/]+)(?:/(?P<show>\w+))?/(?P<profile>\w+)$', 'show_table'),
 
 	(r'^db/(?P<profile>\w+)$', 'get_databases'),
 	(r'^db/(?P<dbname>\w+)/(?P<profile>\w+)$', 'get_schemas'),
