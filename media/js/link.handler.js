@@ -6,6 +6,10 @@ var dbc = new Array();
 		$("#table_view_menu a[href=#data]").toggleClass('m-tab__selected', document.getElementById("table_data") != undefined);
 	}
 
+	$(".connectionLink").live('click', function(event) {
+		$("#content").load('/page/' + app.getConnectionByElement(this));
+	});
+
 	$(".tableLink").live('click', function(event){
 		event.preventDefault();
 		var url = 'db/' + $(this).attr("href");
@@ -13,7 +17,7 @@ var dbc = new Array();
 			select_table_tab();
 			dbc.currentTable = url;
 		});
-	})
+	});
 
 	$("#table_view_menu a[rel=current_table]").live('click', function(event){
 		event.preventDefault();
