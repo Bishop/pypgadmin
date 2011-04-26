@@ -215,6 +215,7 @@
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
+	height: 25px;
 }
 
 	li.b-tab {
