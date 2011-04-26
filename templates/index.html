@@ -31,7 +31,7 @@
 			};
 
 			this.getConnectionByElement = function(element) {
-				return $(element).closest('.connectionItem').children('.connectionLink:first .link').text();
+				return $(element).closest('.connectionItem').find('.connectionLink:first .link').text();
 			};
 
 			this.setSoftwareInfo = function(info) {
