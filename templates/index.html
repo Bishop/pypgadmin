@@ -65,6 +65,13 @@
 				});
 			};
 
+			this.toggleChevron = function(el, expanded) {
+				var block = $(el).closest('div');
+
+				block.next('div').toggleClass('g-hidden', !expanded);
+				block.find('.iconChevron').toggleClass('iconChevronExpanded', expanded);
+			};
+
 			var that = this;
 
 			$.ajax('init', {
@@ -81,12 +88,24 @@
 			$('#connectionList').delegate('.connectionLink', 'click', function(event){
 				event.preventDefault();
 				that.fetchDatabases(this);
+				that.toggleChevron(this, true);
 			}).delegate('.databaseLink', 'click', function(event){
 				event.preventDefault();
 				that.fetchSchemes(this);
+				that.toggleChevron(this, true);
 			}).delegate('.schemaLink', 'click', function(event){
 				event.preventDefault();
 				that.fetchTables(this);
+				that.toggleChevron(this, true);
+			}).delegate('.iconChevron', 'click', function(event){
+				var chevron = $(this);
+				var content = chevron.closest('div').next('div');
+
+				if (content.is(':empty')) {
+					chevron.next('a').trigger('click');
+				} else {
+					that.toggleChevron(this, !chevron.hasClass('iconChevronExpanded'));
+				}
 			});
 		};
 
@@ -120,13 +139,13 @@
 
 	<script id="databaseItem" type="text/x-jquery-tmpl">
 		<div class="databaseItem">
-			<span class="databaseTitle">
+			<div class="databaseTitle">
 				<span class="icon iconChevron"></span><!--
 			 --><a class="databaseLink" href="${$data}"><!--
 				 --><span class="icon iconDatabases"></span>
 					<span class="link">${$data}</span>
 				</a>
-			</span>
+			</div>
 
 			<div class="databaseContent"></div>
 		</div>
@@ -134,13 +153,13 @@
 
 	<script id="schemaItem" type="text/x-jquery-tmpl">
 		<div class="schemaItem">
-			<span class="schemaTitle">
+			<div class="schemaTitle">
 				<span class="icon iconChevron"></span><!--
 			 --><a class="schemaLink" href="${$item.db}/schema/${$data}"><!--
 				 --><span class="icon iconDatabase"></span>
 					<span class="link">${$data}</span>
 				</a>
-			</span>
+			</div>
 
 			<div class="schemaContent"></div>
 		</div>
@@ -148,13 +167,13 @@
 
 	<script id="tableItem" type="text/x-jquery-tmpl">
 		<div class="tableItem">
-			<span class="tableTitle">
-				<span class="icon iconChevron"></span><!--
+			<div class="tableTitle">
+				<!--<span class="icon iconChevron"></span>--><!--
 			 --><a class="tableLink" href="${$item.schema}/table/${$data}"><!--
 				 --><span class="icon iconTable"></span>
 					<span class="link">${$data}</span>
 				</a>
-			</span>
+			</div>
 
 			<div class="tableContent"></div>
 		</div>

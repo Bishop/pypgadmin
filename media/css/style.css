@@ -69,6 +69,10 @@
 	margin: 1em 0;
 }
 
+.connectionItem .iconChevron {
+	cursor: pointer;
+}
+
 	.connectionTitle {
 		font-size: 1.4em;
 	}
